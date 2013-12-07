@@ -1,6 +1,6 @@
 var express = require('express'),
     routes = require('./routes'),
-    repl_client = require('./routes/repl_client'),
+    repl_manager = require('./routes/repl_manager'),
     http = require('http'),
     path = require('path');
 
@@ -24,7 +24,8 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.post('/repl', express.bodyParser(), repl_client.eval);
+app.get('/scrapbook', routes.scrapbook);
+app.post('/repl', express.bodyParser(), repl_manager.eval);
 
 
 http.createServer(app).listen(app.get('port'), function () {

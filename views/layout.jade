@@ -3,11 +3,10 @@ html
     head
         title=title
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        link(rel='stylesheet', href='/stylesheets/style.css')
         link(rel='stylesheet',  href='/bootstrap/css/bootstrap.css')
-    body
-        block content
+        link(rel='stylesheet', href='/stylesheets/layout.css')
         script(src='/jquery/jquery.js')
-        script(src='/jquery/jquery.autosize.js')
+        block head
+    body
+        block body
         script(src='/bootstrap/js/bootstrap.js')
-        script(src='/javascripts/i.js')

@@ -1,0 +1,11 @@
+extends layout
+
+block head
+    link(rel='stylesheet', href='/stylesheets/scrapbook.css')
+
+block body
+    include header
+    div#document.container
+        include scrapbook_cell
+    script(src='/jquery/jquery.autosize.js')
+    script(src='/javascripts/scrapbook.js')

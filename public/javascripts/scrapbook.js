@@ -1,4 +1,4 @@
-var ijs = function () {
+(function () {
     var cellId = 0;
 
     function appendCell() {
@@ -31,6 +31,7 @@ var ijs = function () {
             })
                 .done(function (data) {
                     output.text(data);
+                    output.css('display', '');
                     var currentId = parseInt(cell.attr('id').replace(/^cell/, ''));
                     console.log('currentId: ' + currentId);
                     console.log('cellId: ' + cellId);
@@ -43,4 +44,4 @@ var ijs = function () {
                 });
         }
     })
-}();
+})();

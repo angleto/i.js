@@ -1,8 +1,12 @@
 extends layout
 
-block content
-    div.navbar.navbar-inverse(role='navigation')
-        div.navbar-header
-            a.navbar-brand(href='') #{title}
-    div#document.container
-        include cell
+block head
+    link(rel='stylesheet', href='/stylesheets/index.css')
+
+block body
+    include header
+    div.jumbotron
+        div.container
+            h1="Hello"
+            a#new.btn.btn-primary.btn-lg(href="/scrapbook", target="_blank")="New scrapbook"
+    script(src='/javascripts/index.js')
