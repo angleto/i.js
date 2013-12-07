@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    div.navbar.navbar-inverse(role='navigation')
+        div.navbar-header
+            a.navbar-brand(href='') #{title}
+    div#document.container
+        include cell
