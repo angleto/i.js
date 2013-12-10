@@ -26,7 +26,7 @@
             console.log(js);
             $.ajax({
                 url: '/repl',
-                data: {'js': js},
+                data: {'js': js, 'id': location.pathname.split('/').slice(-1)[0]},
                 type: 'post'
             })
                 .done(function (data) {

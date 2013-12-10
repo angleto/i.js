@@ -24,7 +24,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.get('/scrapbook', routes.scrapbook);
+app.get('/scrapbook/*', routes.scrapbook);
 app.post('/repl', express.bodyParser(), repl_manager.eval);
 
 
