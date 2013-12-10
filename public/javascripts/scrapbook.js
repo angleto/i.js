@@ -1,14 +1,14 @@
 (function () {
-    var cellId = 0;
+    var nextCellId = 0;
 
     function appendCell() {
-        cellId++;
+        nextCellId++;
         var clone = $("#cell").clone();
         clone.css('display', '');
-        clone.attr('id', 'cell' + cellId);
+        clone.attr('id', 'cell' + nextCellId);
         clone.appendTo("#document");
-        clone.find('.label-in').text('In [' + cellId + ']');
-        clone.find('.label-out').text('Out [' + cellId + ']');
+        clone.find('.label-in').text('In [' + nextCellId + ']');
+        clone.find('.label-out').text('Out [' + nextCellId + ']');
         clone.find('.cell-input').focus().autosize();
     }
 
@@ -31,7 +31,7 @@
     function evalCell(target) {
         var textarea = $(target);
         var cell = textarea.parents('.cell');
-        var output = cell.find('.cell-output')
+        var output = cell.find('.cell-output');
         var js = textarea.val();
         console.log(js);
         $.ajax({
@@ -44,9 +44,14 @@
                 output.css('display', '');
                 var currentId = parseInt(cell.attr('id').replace(/^cell/, ''));
                 console.log('currentId: ' + currentId);
-                console.log('cellId: ' + cellId);
-                if (currentId === cellId) {
+                console.log('cellId: ' + nextCellId);
+
+                // If we have just evaluated the last cell then append a new cell,
+                // otherwise just move focus to the next cell.
+                if (currentId === nextCellId) {
                     appendCell();
+                } else if (currentId < nextCellId) {
+                    $("#cell" + (currentId + 1)).find('textarea').focus();
                 }
             })
             .fail(function () {
