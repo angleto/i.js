@@ -1,7 +1,9 @@
+var title = 'i.js';
+
 exports.index = function (req, res) {
-    res.render('index', { title: 'I.js' });
+    res.render('index', { title: title });
 };
 
 exports.scrapbook = function (req, res) {
-    res.render('scrapbook', { title: 'I.js' });
+    res.render('scrapbook', { title: title });
 };

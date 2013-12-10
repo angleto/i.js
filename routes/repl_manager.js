@@ -1,11 +1,13 @@
 var net = require('net'),
     repl = require("repl");
 
+var prompt = ">";
+
 var createServer = function (port) {
     net.createServer(function (socket) {
-        console.log("repl server started")
+        console.log("repl server started");
         var repl_server = repl.start({
-            prompt: "",
+            prompt: prompt,
             input: socket,
             output: socket
         });
@@ -14,11 +16,10 @@ var createServer = function (port) {
         });
     }).listen(port);
     return net.connect(port);
-}
-
+};
 
 var getServer = function () {
-    var id2socket = {}
+    var id2socket = {};
     var nextPort = 5001;
     return function (id) {
         if (!id2socket[id]) {
@@ -40,7 +41,14 @@ exports.eval = function (req, res) {
         var socket = getServer(id);
 
         socket.once('data', function (b) {
-            var result = b.toString().trim();
+            var result = 'undefined';
+            var out = b.toString().split(prompt);
+            for (var i = out.length - 1; i >= 0; i--) {
+                result = out[i].trim();
+                if (result.length > 0) {
+                    break;
+                }
+            }
             console.log('result: ' + result);
             res.send(result);
         });
