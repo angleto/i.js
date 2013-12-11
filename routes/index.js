@@ -13,20 +13,33 @@ exports.index = function (req, res) {
                     error(res, err);
                 } else {
                     var scrapbooks = [];
+                    var filesRead = 0;
                     for (var i = 0; i < files.length; i++) {
                         var file = files[i];
                         if (/\.json$/.test(file)) {
                             var id = file.replace(/\.[^/.]+$/, "");
                             logger.info("id:" + id);
 
-                            var json = fs.readFileSync(path.join(shared.workdir, file));
-                            var name = JSON.parse(json).name;
-                            logger.info("name:" + name);
-
-                            scrapbooks[i] = {id: id, name: name};
+                            fs.readFile(path.join(shared.workdir, file), function (err, data) {
+                                if (err) {
+                                    throw err;
+                                } else {
+                                    var name = JSON.parse(data).name;
+                                    logger.info("name: " + name);
+                                    scrapbooks.push({id: id, name: name});
+                                    filesRead++;
+                                    if (filesRead == files.length) {
+                                        scrapbooks = scrapbooks.sort(function (a, b) {
+                                            if (a.name < b.name) return -1;
+                                            if (b.name < a.name) return 1;
+                                            return 0;
+                                        });
+                                        res.render('index', { title: shared.title, scrapbooks: scrapbooks });
+                                    }
+                                }
+                            });
                         }
                     }
-                    res.render('index', { title: shared.title, scrapbooks: scrapbooks });
                 }
             });
         }
