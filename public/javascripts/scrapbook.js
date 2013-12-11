@@ -1,7 +1,69 @@
 (function () {
+    var id = location.pathname.split('/').slice(-1)[0];
+
+    function load() {
+        var ajax = $.ajax({
+            url: '/load',
+            data: {'id': id},
+            type: 'get'
+        });
+
+        ajax.done(function (data) {
+            console.log(data);
+
+            console.log(data.name);
+            $("#name").val(data.name)
+
+            var cells = data.cells;
+            for (var i = 0; i < cells.length; i++) {
+                appendCell(cells[i]);
+            }
+            appendCell();
+        });
+
+        ajax.fail(function () {
+            console.log("error!");
+        });
+    };
+
+    load();
+
+    function save() {
+        var array = [];
+        var cellInputs = $('.cell-input:visible');
+        console.log(cellInputs);
+        $('.cell-input:visible').each(function () {
+            var s = $(this).val();
+            if (s.length > 0) {
+                array.push(s);
+            }
+        });
+        console.log(array);
+
+        var name = $("#name").val();
+        console.log("name: " + name);
+        var ajax = $.ajax({
+            url: '/save',
+            data: {'data': {name: name, cells: array}, 'id': id},
+            type: 'post'
+        });
+
+        ajax.done(function () {
+            console.log("done!");
+        });
+
+        ajax.fail(function () {
+            console.log("error!");
+        });
+    };
+
+    $('#save').click(function (e) {
+        save();
+    });
+
     var nextCellId = 0;
 
-    function appendCell() {
+    function appendCell(text) {
         nextCellId++;
         var clone = $("#cell").clone();
         clone.css('display', '');
@@ -9,7 +71,11 @@
         clone.appendTo("#document");
         clone.find('.label-in').text('In [' + nextCellId + ']');
         clone.find('.label-out').text('Out [' + nextCellId + ']');
-        clone.find('.cell-input').focus().autosize();
+        var textarea = clone.find('.cell-input');
+        if (text) {
+            textarea.text(text);
+        }
+        textarea.focus().autosize();
     }
 
     function insertTab(target) {
@@ -36,7 +102,7 @@
         console.log(js);
         $.ajax({
             url: '/repl',
-            data: {'js': js, 'id': location.pathname.split('/').slice(-1)[0]},
+            data: {'js': js, 'id': id},
             type: 'post'
         })
             .done(function (data) {
@@ -72,6 +138,4 @@
             }
         }
     });
-
-    appendCell();
 })();

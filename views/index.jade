@@ -4,7 +4,7 @@ block head
     link(rel='stylesheet', href='/stylesheets/index.css')
 
 block body
-    include header
+    include index_header
     div.jumbotron
         div.container
             div.row
@@ -12,6 +12,12 @@ block body
             div.row
                 p="The individual act of obedience is the cornerstone not only of the strength of authoritarian society but also of its weakness."
                 p.small.text-muted="Hagbard Celine, Never Whistle While You're Pissing"
-            div.row
-                a#new.btn.btn-primary.btn-lg="New scrapbook"
+            if scrapbooks.length > 0
+                div.row
+                    h2="Scrapbooks:"
+                div.row
+                    ul
+                        each scrapbook, i in scrapbooks
+                            li
+                                a(href="/scrapbook/" + scrapbook.id, target = '_blank')=scrapbook.name
     script(src='/javascripts/index.js')
