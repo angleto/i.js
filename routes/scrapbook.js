@@ -34,9 +34,9 @@ exports.save = function (req) {
             if (err) {
                 logger.error(err);
                 throw err;
-            } else {
-                logger.info("The file was saved!");
             }
+
+            logger.info("The file was saved!");
         });
     }
 };
