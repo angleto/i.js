@@ -12,11 +12,11 @@
             console.log(data);
 
             console.log(data.name);
-            $("#name").val(data.name)
+            $("#name").val(data.name);
 
             var cells = data.cells;
             for (var i = 0; i < cells.length; i++) {
-                appendCell(cells[i]);
+                appendCell(cells[i].in, cells[i].out);
             }
             appendCell();
         });
@@ -24,20 +24,22 @@
         ajax.fail(function () {
             console.log("error!");
         });
-    };
+    }
 
     load();
 
     function save() {
         var array = [];
-        var cellInputs = $('.cell-input:visible');
-        console.log(cellInputs);
-        $('.cell-input:visible').each(function () {
-            var s = $(this).val();
-            if (s.length > 0) {
-                array.push(s);
+
+        $('.cell:visible').each(function() {
+            var cell_in = $(this).find('.cell-input').val();
+            if (cell_in.length > 0) {
+                var cell_out = $(this).find('.cell-output').text();
+                console.log(cell_in + " -> " + cell_out);
+                array.push({in: cell_in, out: cell_out});
             }
         });
+
         console.log(array);
 
         var name = $("#name").val();
@@ -55,15 +57,15 @@
         ajax.fail(function () {
             console.log("error!");
         });
-    };
+    }
 
-    $('#save').click(function (e) {
+    $('#save').click(function () {
         save();
     });
 
     var nextCellId = 0;
 
-    function appendCell(text) {
+    function appendCell(cell_in, cell_out) {
         nextCellId++;
         var clone = $("#cell").clone();
         clone.css('display', '');
@@ -72,9 +74,15 @@
         clone.find('.label-in').text('In [' + nextCellId + ']');
         clone.find('.label-out').text('Out [' + nextCellId + ']');
         var textarea = clone.find('.cell-input');
-        if (text) {
-            textarea.text(text);
+        if (cell_in) {
+            textarea.text(cell_in);
         }
+        if (cell_out) {
+            var output = clone.find('.cell-output');
+            output.text(cell_out);
+            output.css('display', '');
+        }
+
         textarea.focus().autosize();
     }
 
