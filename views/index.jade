@@ -12,9 +12,10 @@ block body
             div.row
                 p="The individual act of obedience is the cornerstone not only of the strength of authoritarian society but also of its weakness."
                 p.small.text-muted="Hagbard Celine, Never Whistle While You're Pissing"
-            div.row
-                h2="Previous sessions"
-            each scrapbook, i in scrapbooks
+            if scrapbooks.length > 0
                 div.row
-                    a(href="/scrapbook/" + scrapbook, target = '_blank')=scrapbook
+                    h2="Previous sessions"
+                each scrapbook, i in scrapbooks
+                    div.row
+                        a(href="/scrapbook/" + scrapbook, target = '_blank')=scrapbook
     script(src='/javascripts/index.js')

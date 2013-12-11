@@ -1,6 +1,7 @@
 var express = require('express'),
     routes = require('./routes'),
     repl_manager = require('./routes/repl_manager'),
+    scrapbook = require('./routes/scrapbook'),
     http = require('http'),
     path = require('path');
 
@@ -24,10 +25,12 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.get('/scrapbook/*', routes.scrapbook);
+
 app.post('/repl', express.bodyParser(), repl_manager.eval);
-app.post('/save', express.bodyParser(), routes.save);
-app.get('/load', routes.load);
+
+app.get('/scrapbook/*', scrapbook.scrapbook);
+app.post('/save', express.bodyParser(), scrapbook.save);
+app.get('/load', scrapbook.load);
 
 
 http.createServer(app).listen(app.get('port'), function () {

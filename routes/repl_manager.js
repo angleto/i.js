@@ -1,29 +1,36 @@
-var net = require('net'),
+var logger = require('log4js').getLogger("repl_manager"),
+    net = require('net'),
     repl = require("repl");
 
 var prompt = ">";
 
 var createServer = function (port) {
+    logger.info("createServer()");
     net.createServer(function (socket) {
-        console.log("repl server started");
+        logger.info("repl server started");
+
         var repl_server = repl.start({
             prompt: prompt,
             input: socket,
             output: socket
         });
+
         repl_server.on('exit', function () {
             socket.end();
         });
     }).listen(port);
+
     return net.connect(port);
 };
 
 var getServer = function () {
+    logger.info("getServer()");
+
     var id2socket = {};
     var nextPort = 5001;
     return function (id) {
         if (!id2socket[id]) {
-            console.log('create server on port: ' + nextPort);
+            logger.info('create server on port: ' + nextPort);
             id2socket[id] = createServer(nextPort++);
         }
         return id2socket[id];
@@ -31,12 +38,17 @@ var getServer = function () {
 }();
 
 exports.eval = function (req, res) {
-    if (req.body && req.body.js && req.body.id) {
-        var js = req.body.js;
-        console.log("JS to execute: " + js);
+    logger.info("eval()");
+    if (!req.body) {
+        logger.info("missing request body");
+        return;
+    }
 
-        var id = req.body.id;
-        console.log("ID: " + id);
+    var id = req.body.id;
+    var js = req.body.js;
+    if (id && js) {
+        logger.info("id: " + id);
+        logger.debug("js: " + js);
 
         var socket = getServer(id);
 
@@ -49,10 +61,9 @@ exports.eval = function (req, res) {
                     break;
                 }
             }
-            console.log('result: ' + result);
+            logger.debug('result: ' + result);
             res.send(result);
         });
-        socket.write(js.trim() + '\n');
-        socket.write('.break\n');
+        socket.write(js.trim() + '\n' + '.break\n');
     }
 };
