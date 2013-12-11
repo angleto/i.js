@@ -14,8 +14,10 @@ block body
                 p.small.text-muted="Hagbard Celine, Never Whistle While You're Pissing"
             if scrapbooks.length > 0
                 div.row
-                    h2="Previous sessions"
-                each scrapbook, i in scrapbooks
-                    div.row
-                        a(href="/scrapbook/" + scrapbook.id, target = '_blank')=scrapbook.name
+                    h2="Scrapbooks:"
+                div.row
+                    ul
+                        each scrapbook, i in scrapbooks
+                            li
+                                a(href="/scrapbook/" + scrapbook.id, target = '_blank')=scrapbook.name
     script(src='/javascripts/index.js')
