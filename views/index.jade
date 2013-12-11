@@ -17,5 +17,5 @@ block body
                     h2="Previous sessions"
                 each scrapbook, i in scrapbooks
                     div.row
-                        a(href="/scrapbook/" + scrapbook, target = '_blank')=scrapbook
+                        a(href="/scrapbook/" + scrapbook.id, target = '_blank')=scrapbook.name
     script(src='/javascripts/index.js')

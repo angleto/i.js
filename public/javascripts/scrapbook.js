@@ -2,21 +2,28 @@
     var id = location.pathname.split('/').slice(-1)[0];
 
     function load() {
-        $.ajax({
+        var ajax = $.ajax({
             url: '/load',
             data: {'id': id},
             type: 'get'
-        })
-            .done(function (data) {
-                console.log(data);
-                for (var i = 0; i < data.length; i++) {
-                    appendCell(data[i]);
-                }
-                appendCell();
-            })
-            .fail(function () {
-                console.log("error!");
-            });
+        });
+
+        ajax.done(function (data) {
+            console.log(data);
+
+            console.log(data.name);
+            $("#name").val(data.name)
+
+            var cells = data.cells;
+            for (var i = 0; i < cells.length; i++) {
+                appendCell(cells[i]);
+            }
+            appendCell();
+        });
+
+        ajax.fail(function () {
+            console.log("error!");
+        });
     };
 
     load();
@@ -32,17 +39,22 @@
             }
         });
         console.log(array);
-        $.ajax({
+
+        var name = $("#name").val();
+        console.log("name: " + name);
+        var ajax = $.ajax({
             url: '/save',
-            data: {'data': array, 'id': id},
+            data: {'data': {name: name, cells: array}, 'id': id},
             type: 'post'
-        })
-            .done(function () {
-                console.log("done!");
-            })
-            .fail(function () {
-                console.log("error!");
-            });
+        });
+
+        ajax.done(function () {
+            console.log("done!");
+        });
+
+        ajax.fail(function () {
+            console.log("error!");
+        });
     };
 
     $('#save').click(function (e) {

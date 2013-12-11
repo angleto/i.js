@@ -16,7 +16,15 @@ var init = function () {
 
 exports.scrapbook = function (req, res) {
     logger.info("scrapbook()");
-    res.render('scrapbook', { title: shared.title });
+
+    if (!req.query) {
+        logger.info("missing request query");
+        return;
+    }
+
+    var id = req.params[0];
+    logger.info("id:" + id);
+    res.render('scrapbook', { title: shared.title, id: id });
 };
 
 exports.save = function (req) {
@@ -58,7 +66,7 @@ exports.load = function (req, res) {
         logger.info("file: " + file);
         fs.readFile(file, function (err, data) {
             if (err) {
-                res.send([]);
+                res.send({name: id, cells: []});
             } else {
                 logger.debug("data: " + data);
                 res.send(JSON.parse(data));

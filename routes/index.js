@@ -16,7 +16,14 @@ exports.index = function (req, res) {
                     for (var i = 0; i < files.length; i++) {
                         var file = files[i];
                         if (/\.json$/.test(file)) {
-                            scrapbooks[i] = file.replace(/\.[^/.]+$/, "");
+                            var id = file.replace(/\.[^/.]+$/, "");
+                            logger.info("id:" + id);
+
+                            var json = fs.readFileSync(path.join(shared.workdir, file));
+                            var name = JSON.parse(json).name;
+                            logger.info("name:" + name);
+
+                            scrapbooks[i] = {id: id, name: name};
                         }
                     }
                     res.render('index', { title: shared.title, scrapbooks: scrapbooks });
