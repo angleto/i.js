@@ -26,6 +26,7 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/scrapbook/*', routes.scrapbook);
 app.post('/repl', express.bodyParser(), repl_manager.eval);
+app.post('/save', express.bodyParser(), routes.save);
 
 
 http.createServer(app).listen(app.get('port'), function () {

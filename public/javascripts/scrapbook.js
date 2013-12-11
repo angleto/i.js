@@ -1,4 +1,33 @@
 (function () {
+    var getId = function() {
+        return location.pathname.split('/').slice(-1)[0];
+    }
+
+    $('#save').click(function (e) {
+        var array = [];
+        var cellInputs = $('.cell-input:visible');
+        console.log(cellInputs);
+        $('.cell-input:visible').each(function () {
+            var s = $(this).val();
+            if (s.length > 0) {
+                array.push(s);
+            }
+        });
+        console.log(array);
+        $.ajax({
+            url: '/save',
+            data: {'data': array, 'id': getId()},
+            type: 'post'
+        })
+            .done(function () {
+                console.log("done!");
+            })
+            .fail(function () {
+                console.log("error!");
+            });
+
+    });
+
     var nextCellId = 0;
 
     function appendCell() {
@@ -36,7 +65,7 @@
         console.log(js);
         $.ajax({
             url: '/repl',
-            data: {'js': js, 'id': location.pathname.split('/').slice(-1)[0]},
+            data: {'js': js, 'id': getId()},
             type: 'post'
         })
             .done(function (data) {
