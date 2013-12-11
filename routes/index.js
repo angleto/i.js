@@ -10,7 +10,8 @@ exports.index = function (req, res) {
         if (exists) {
             fs.readdir(shared.workdir, function (err, files) {
                 if (err) {
-                    error(res, err);
+                    logger.error(err);
+                    throw err;
                 } else {
                     var scrapbooks = [];
                     var filesRead = 0;
@@ -22,6 +23,7 @@ exports.index = function (req, res) {
 
                             fs.readFile(path.join(shared.workdir, file), function (err, data) {
                                 if (err) {
+                                    logger.error(err);
                                     throw err;
                                 } else {
                                     var name = JSON.parse(data).name;
