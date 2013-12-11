@@ -1,18 +1,7 @@
 var fs = require('fs'),
     logger = require('log4js').getLogger("scrapbook"),
     path = require('path'),
-    shared = require('./shared');
-
-var init = function () {
-    logger.info("init()");
-    if (fs.existsSync(shared.workdir)) {
-        if (!fs.statSync(shared.workdir).isDirectory()) {
-            throw new Error(shared.workdir + " should be a directory");
-        }
-    } else {
-        fs.mkdirSync(shared.workdir);
-    }
-}
+    config = require('./config');
 
 exports.scrapbook = function (req, res) {
     logger.info("scrapbook()");
@@ -24,7 +13,7 @@ exports.scrapbook = function (req, res) {
 
     var id = req.params[0];
     logger.info("id:" + id);
-    res.render('scrapbook', { title: shared.title, id: id });
+    res.render('scrapbook', { title: config.title, id: id });
 };
 
 exports.save = function (req) {
@@ -40,7 +29,7 @@ exports.save = function (req) {
     if (id && data) {
         logger.info("id: " + id);
         logger.debug("data: " + data);
-        var file = path.join(shared.workdir, id + ".json");
+        var file = path.join(config.workdir, id + ".json");
         fs.writeFile(file, JSON.stringify(data), function (err) {
             if (err) {
                 logger.error(err);
@@ -62,7 +51,7 @@ exports.load = function (req, res) {
     var id = req.query.id;
     if (id) {
         logger.info("id: " + id);
-        var file = path.join(shared.workdir, id + ".json");
+        var file = path.join(config.workdir, id + ".json");
         logger.info("file: " + file);
         fs.readFile(file, function (err, data) {
             if (err) {
@@ -74,5 +63,3 @@ exports.load = function (req, res) {
         });
     }
 };
-
-init();

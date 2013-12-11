@@ -1,9 +1,11 @@
 var express = require('express'),
-    routes = require('./routes'),
-    repl_manager = require('./routes/repl_manager'),
-    scrapbook = require('./routes/scrapbook'),
     http = require('http'),
     path = require('path');
+
+var routes = require('./routes'),
+    config = require('./routes/config'),
+    repl_manager = require('./routes/repl_manager'),
+    scrapbook = require('./routes/scrapbook');
 
 var app = express();
 
@@ -32,6 +34,7 @@ app.get('/scrapbook/*', scrapbook.scrapbook);
 app.post('/save', scrapbook.save);
 app.get('/load', scrapbook.load);
 
+config.setup();
 
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
