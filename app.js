@@ -27,6 +27,7 @@ app.get('/', routes.index);
 app.get('/scrapbook/*', routes.scrapbook);
 app.post('/repl', express.bodyParser(), repl_manager.eval);
 app.post('/save', express.bodyParser(), routes.save);
+app.get('/load', routes.load);
 
 
 http.createServer(app).listen(app.get('port'), function () {

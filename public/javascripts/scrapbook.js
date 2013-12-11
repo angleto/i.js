@@ -1,9 +1,27 @@
 (function () {
-    var getId = function() {
-        return location.pathname.split('/').slice(-1)[0];
-    }
+    var id = location.pathname.split('/').slice(-1)[0];
 
-    $('#save').click(function (e) {
+    function load() {
+        $.ajax({
+            url: '/load',
+            data: {'id': id},
+            type: 'get'
+        })
+            .done(function (data) {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    appendCell(data[i]);
+                }
+                appendCell();
+            })
+            .fail(function () {
+                console.log("error!");
+            });
+    };
+
+    load();
+
+    function save() {
         var array = [];
         var cellInputs = $('.cell-input:visible');
         console.log(cellInputs);
@@ -16,7 +34,7 @@
         console.log(array);
         $.ajax({
             url: '/save',
-            data: {'data': array, 'id': getId()},
+            data: {'data': array, 'id': id},
             type: 'post'
         })
             .done(function () {
@@ -25,12 +43,15 @@
             .fail(function () {
                 console.log("error!");
             });
+    };
 
+    $('#save').click(function (e) {
+        save();
     });
 
     var nextCellId = 0;
 
-    function appendCell() {
+    function appendCell(text) {
         nextCellId++;
         var clone = $("#cell").clone();
         clone.css('display', '');
@@ -38,7 +59,11 @@
         clone.appendTo("#document");
         clone.find('.label-in').text('In [' + nextCellId + ']');
         clone.find('.label-out').text('Out [' + nextCellId + ']');
-        clone.find('.cell-input').focus().autosize();
+        var textarea = clone.find('.cell-input');
+        if (text) {
+            textarea.text(text);
+        }
+        textarea.focus().autosize();
     }
 
     function insertTab(target) {
@@ -65,7 +90,7 @@
         console.log(js);
         $.ajax({
             url: '/repl',
-            data: {'js': js, 'id': getId()},
+            data: {'js': js, 'id': id},
             type: 'post'
         })
             .done(function (data) {
@@ -101,6 +126,4 @@
             }
         }
     });
-
-    appendCell();
 })();
