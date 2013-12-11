@@ -26,10 +26,10 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 
-app.post('/repl', express.bodyParser(), repl_manager.eval);
+app.post('/repl', repl_manager.eval);
 
 app.get('/scrapbook/*', scrapbook.scrapbook);
-app.post('/save', express.bodyParser(), scrapbook.save);
+app.post('/save', scrapbook.save);
 app.get('/load', scrapbook.load);
 
 
