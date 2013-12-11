@@ -78,9 +78,8 @@
             textarea.text(cell_in);
         }
         if (cell_out) {
-            var output = clone.find('.cell-output');
-            output.text(cell_out);
-            output.css('display', '');
+            clone.find('.cell-output').text(cell_out);
+            clone.find('.out').css('display', '');
         }
 
         textarea.focus().autosize();
@@ -105,7 +104,6 @@
     function evalCell(target) {
         var textarea = $(target);
         var cell = textarea.parents('.cell');
-        var output = cell.find('.cell-output');
         var js = textarea.val();
         console.log(js);
         $.ajax({
@@ -114,8 +112,9 @@
             type: 'post'
         })
             .done(function (data) {
-                output.text(data);
-                output.css('display', '');
+                cell.find('.cell-output').text(data);
+                cell.find('.out').css('display', '');
+
                 var currentId = parseInt(cell.attr('id').replace(/^cell/, ''));
                 console.log('currentId: ' + currentId);
                 console.log('cellId: ' + nextCellId);
