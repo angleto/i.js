@@ -16,7 +16,7 @@ exports.scrapbook = function (req, res) {
     res.render('scrapbook', { title: config.title, id: id });
 };
 
-exports.save = function (req) {
+exports.save = function (req, res) {
     logger.info("save()");
     if (!req.body) {
         logger.info("missing request body");
@@ -37,6 +37,7 @@ exports.save = function (req) {
             }
 
             logger.info("The file was saved!");
+            res.status(200).send();
         });
     }
 };

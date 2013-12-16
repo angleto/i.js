@@ -12,3 +12,7 @@
 .cell-output {
     margin-top: 10px;
 }
+
+form.navbar-form.navbar-left >* {
+    margin-right: 15px;
+}

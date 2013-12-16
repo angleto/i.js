@@ -2,13 +2,11 @@
     var id = location.pathname.split('/').slice(-1)[0];
 
     function load() {
-        var ajax = $.ajax({
+        $.ajax({
             url: '/load',
             data: {'id': id},
             type: 'get'
-        });
-
-        ajax.done(function (data) {
+        }).done(function (data) {
             console.log(data);
 
             console.log(data.name);
@@ -19,9 +17,7 @@
                 appendCell(cells[i].in, cells[i].out);
             }
             appendCell();
-        });
-
-        ajax.fail(function () {
+        }).fail(function () {
             console.log("error!");
         });
     }
@@ -44,18 +40,20 @@
 
         var name = $("#name").val();
         console.log("name: " + name);
-        var ajax = $.ajax({
+        $.ajax({
             url: '/save',
             data: {'data': {name: name, cells: array}, 'id': id},
             type: 'post'
-        });
-
-        ajax.done(function () {
+        }).done(function () {
             console.log("done!");
-        });
-
-        ajax.fail(function () {
+            var status = $("#save-status");
+            status.addClass('label-success').text("File saved");
+            setTimeout(function() {status.text('');}, 1000);
+        }).fail(function () {
             console.log("error!");
+            var status = $("#save-status");
+            status.addClass('label-danger').text("Save failed");
+            setTimeout(function() {status.text('');}, 1000);
         });
     }
 
