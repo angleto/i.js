@@ -12,9 +12,11 @@
             console.log(data.name);
             $("#name").val(data.name);
 
-            var cells = data.cells;
-            for (var i = 0; i < cells.length; i++) {
-                appendCell(cells[i].in, cells[i].out);
+            if (data.cells) {
+                var cells = data.cells;
+                for (var i = 0; i < cells.length; i++) {
+                    appendCell(cells[i].in, cells[i].out);
+                }
             }
             appendCell();
         }).fail(function () {
@@ -140,6 +142,9 @@
                 // Shift+Enter was pressed: eval the cell content
                 e.preventDefault();
                 evalCell(e.target);
+            } else if (e.keyCode == 83 && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                save();
             }
         }
     });
