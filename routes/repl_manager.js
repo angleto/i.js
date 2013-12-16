@@ -56,7 +56,7 @@ exports.eval = function (req, res) {
             var result = 'undefined';
             var out = b.toString().split(prompt);
             for (var i = out.length - 1; i >= 0; i--) {
-                result = out[i].trim();
+                result = out[i].trim().replace(/^(\.\.+\s+)+/, "");
                 if (result.length > 0) {
                     break;
                 }
