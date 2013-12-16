@@ -138,7 +138,7 @@
                 // Tab was pressed: ident
                 e.preventDefault();
                 insertTab(e.target);
-            } else if (e.keyCode == 13 && event.shiftKey) {
+            } else if (e.keyCode == 13 && e.shiftKey) {
                 // Shift+Enter was pressed: eval the cell content
                 e.preventDefault();
                 evalCell(e.target);
