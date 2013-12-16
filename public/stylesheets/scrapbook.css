@@ -2,17 +2,30 @@
     padding: 15px 40px;
 }
 
-.cell {
-    margin:10px;
-    padding:10px;
-    border:1px solid #cccccc;
-    border-radius:4px;
+form.navbar-form.navbar-left > * {
+    margin-right: 15px;
 }
 
-.cell-output {
+.cell {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+}
+
+.cell .out {
     margin-top: 10px;
 }
 
-form.navbar-form.navbar-left >* {
-    margin-right: 15px;
+.cell .input-prompt {
+    color: navy;
+}
+
+.cell .output-prompt {
+    color: darkred;
+}
+
+.cell * {
+    font-family: Courier;
+    font-size: 12px;
 }

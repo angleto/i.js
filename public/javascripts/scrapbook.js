@@ -69,8 +69,8 @@
         clone.css('display', '');
         clone.attr('id', 'cell' + nextCellId);
         clone.appendTo("#document");
-        clone.find('.label-in').text('In [' + nextCellId + ']');
-        clone.find('.label-out').text('Out [' + nextCellId + ']');
+        clone.find('.input-prompt').html('In&nbsp;&nbsp;[' + nextCellId + ']:');
+        clone.find('.output-prompt').html('Out&nbsp;[' + nextCellId + ']:');
         var textarea = clone.find('.cell-input');
         if (cell_in) {
             textarea.text(cell_in);
