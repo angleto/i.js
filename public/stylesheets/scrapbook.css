@@ -30,20 +30,23 @@ form.navbar-form.navbar-left > * {
     font-size: 12px;
 }
 
-dl.dropdown-menu {
-    padding: 5px;
+div.dropdown-menu {
+    padding: 15px;
     width: 300px;
-    overflow: hidden;
-    font-family: Courier;
     font-size: 12px;
 }
 
-dl.dropdown-menu dt {
+div.dropdown-menu  dl {
+    overflow: hidden;
+    margin: 0;
+}
+
+div.dropdown-menu  dl dt {
     float: left;
     width: 50%; /* adjust the width; make sure the total of both is 100% */
 }
 
-dl.dropdown-menu dd {
+div.dropdown-menu  dd {
     float: left;
     width: 50%; /* adjust the width; make sure the total of both is 100% */
 }
