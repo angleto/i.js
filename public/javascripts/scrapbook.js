@@ -87,7 +87,6 @@
             clone.find('.out').css('display', '');
         }
 
-        //textarea.focus();
         var code_mirror = CodeMirror.fromTextArea(textarea.get(0), {
             mode: 'text/javascript',
             indentUnit: 4,
@@ -111,25 +110,25 @@
             data: {'js': js, 'id': id},
             type: 'post'
         })
-            .done(function (data) {
-                cell.find('.cell-output').text(data);
-                cell.find('.out').css('display', '');
+        .done(function (data) {
+            cell.find('.cell-output').text(data);
+            cell.find('.out').css('display', '');
 
-                var currentId = parseInt(getId(cell ));
-                console.log('currentId: ' + currentId);
-                console.log('cellId: ' + nextCellId);
+            var currentId = parseInt(getId(cell ));
+            console.log('currentId: ' + currentId);
+            console.log('cellId: ' + nextCellId);
 
-                // If we have just evaluated the last cell then append a new cell,
-                // otherwise just move focus to the next cell.
-                if (currentId === nextCellId) {
-                    appendCell();
-                } else if (currentId < nextCellId) {
-                    cell_id_to_code_mirror[currentId + 1].focus();
-                }
-            })
-            .fail(function () {
-                console.log("error!");
-            });
+            // If we have just evaluated the last cell then append a new cell,
+            // otherwise just move focus to the next cell.
+            if (currentId === nextCellId) {
+                appendCell();
+            } else if (currentId < nextCellId) {
+                cell_id_to_code_mirror[currentId + 1].focus();
+            }
+        })
+        .fail(function () {
+            console.log("error!");
+        });
     }
 
     function getId(cell) {

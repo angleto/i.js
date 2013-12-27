@@ -42,6 +42,30 @@ exports.save = function (req, res) {
     }
 };
 
+exports.delete = function (req, res) {
+    logger.info("delete()");
+    if (!req.body) {
+        logger.info("missing request body");
+        return;
+    }
+
+    var id = req.body.id;
+
+    if (id) {
+        logger.info("id: " + id);
+        var file = path.join(config.workdir, id + ".json");
+        fs.unlink(file, function (err) {
+            if (err) {
+                logger.error(err);
+                throw err;
+            }
+
+            logger.info("The file was deleted!");
+            res.status(200).send();
+        });
+    }
+};
+
 exports.load = function (req, res) {
     logger.info("load()");
     if (!req.query) {

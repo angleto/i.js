@@ -31,8 +31,9 @@ app.get('/', routes.index);
 app.post('/repl', repl_manager.eval);
 
 app.get('/scrapbook/*', scrapbook.scrapbook);
-app.post('/save', scrapbook.save);
 app.get('/load', scrapbook.load);
+app.post('/save', scrapbook.save);
+app.post('/delete', scrapbook.delete);
 
 config.setup();
 

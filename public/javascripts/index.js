@@ -16,4 +16,26 @@
     $("#new").click(function () {
         window.open("/scrapbook/" + createUUID(), target = "_blank")
     });
+
+    $(".delete").click(function (e) {
+        var result = confirm("Want to delete?");
+        if (result) {
+            var target = $(e.currentTarget);
+            if (target.hasClass('delete')) {
+                var dataId = target.attr('data-id');
+                if (dataId) {
+                    $.ajax({
+                        url: '/delete',
+                        data: {'id': dataId},
+                        type: 'post'
+                    }).done(function () {
+                            console.log("done!");
+                            target.parents(".row")[0].remove();
+                        }).fail(function () {
+                            console.log("error!");
+                        });
+                }
+            }
+        }
+    });
 })();

@@ -19,6 +19,10 @@ block body
                 div.row
                     ul
                         each scrapbook, i in scrapbooks
-                            li
-                                a(href="/scrapbook/" + scrapbook.id, target = '_blank')=scrapbook.name
+                            div.row
+                                div.col-md-11
+                                    a(href="/scrapbook/" + scrapbook.id, target = '_blank')=scrapbook.name
+                                div.col-md-1
+                                    button.delete(type='button',class='btn btn-default btn-sm', data-id=scrapbook.id)
+                                        span(class='glyphicon glyphicon-trash')
     script(src='/javascripts/index.js')
