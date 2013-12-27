@@ -5,4 +5,19 @@ block controls
             div.form-group
                 input#name.form-control(type="text", value=id, size=64, autocomplete="off", autocorrect="off", autocapitalize="off", spellcheck="false")
             button#save.btn.btn-default(type="button")="Save"
+
             span#save-status.label
+        div.nav.navbar-nav.pull-right
+            li.dropdown
+                a.dropdown-toggle(href="#", data-toggle="dropdown")="help"
+                    b.caret
+                    dl.dropdown-menu
+                        dt
+                            a(href="#")="Shift-Enter"
+                        dd
+                            span="evaluate current cell"
+                        dt
+                            a(href="#")="Ctrl-S (Meta-S)"
+                        dd
+                            span="save current document"
+

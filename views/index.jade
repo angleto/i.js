@@ -23,6 +23,6 @@ block body
                                 div.col-md-11
                                     a(href="/scrapbook/" + scrapbook.id, target = '_blank')=scrapbook.name
                                 div.col-md-1
-                                    button.delete(type='button',class='btn btn-default btn-sm', data-id=scrapbook.id)
-                                        span(class='glyphicon glyphicon-trash')
+                                    button.delete.btn.btn-default.btn-sm(type='button', data-id=scrapbook.id)
+                                        span.glyphicon.glyphicon-trash
     script(src='/javascripts/index.js')
