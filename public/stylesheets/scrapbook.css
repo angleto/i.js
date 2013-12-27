@@ -29,13 +29,3 @@ form.navbar-form.navbar-left > * {
     font-family: Courier;
     font-size: 12px;
 }
-
-/* Auto-resize code mirror */
-.CodeMirror {
-    border: 1px solid #eee;
-    height: auto;
-}
-.CodeMirror-scroll {
-    overflow-y: hidden;
-    overflow-x: auto;
-}

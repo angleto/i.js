@@ -1,12 +1,12 @@
 extends layout
 
 block head
+    link(rel='stylesheet', href='/stylesheets/scrapbook.css')
     // codemirror dependencies:
     script(src='/codemirror/codemirror.js')
-    link(rel='stylesheet', href='/codemirror/codemirror.css')
     script(src='/codemirror/mode/javascript.js')
-    // other dependencies:
-    link(rel='stylesheet', href='/stylesheets/scrapbook.css')
+    link(rel='stylesheet', href='/codemirror/codemirror.css')
+    link(rel='stylesheet', href='/codemirror/codemirror_custom.css')
 
 block body
     include scrapbook_header
