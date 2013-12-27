@@ -1,6 +1,8 @@
 (function () {
     var id = location.pathname.split('/').slice(-1)[0];
 
+    var cell_id_to_code_mirror = {};
+
     function load() {
         $.ajax({
             url: '/load',
@@ -29,8 +31,11 @@
     function save() {
         var array = [];
 
-        $('.cell:visible').each(function() {
-            var cell_in = $(this).find('.cell-input').val();
+        $('.cell:visible').each(function(index, cell) {
+            console.log("cell: " + cell.id);
+            console.log("cell: " + $(cell).attr('id'));
+            var id = getId($(cell));
+            var cell_in = cell_id_to_code_mirror[id].getValue();
             if (cell_in.length > 0) {
                 var cell_out = $(this).find('.cell-output').text();
                 console.log(cell_in + " -> " + cell_out);
@@ -82,29 +87,24 @@
             clone.find('.out').css('display', '');
         }
 
-        textarea.focus().autosize();
+        //textarea.focus();
+        var code_mirror = CodeMirror.fromTextArea(textarea.get(0), {
+            mode: 'text/javascript',
+            indentUnit: 4,
+            tabSize: 4,
+            indentWithTabs: true,
+            viewportMargin: Infinity
+        });
+        code_mirror.addKeyMap({
+            "Shift-Enter": function() {evalCell(code_mirror.getTextArea(), code_mirror.getValue());}
+        });
+        cell_id_to_code_mirror[nextCellId] = code_mirror;
+        code_mirror.focus();
     }
 
-    function insertTab(target) {
-        var start = target.selectionStart;
-        var end = target.selectionEnd;
-
-        var ident = "    ";
-        var newCaretPosition = start + ident.length;
-
-        var textarea = $(target);
-        var text = textarea.val().substring(0, start) + ident + textarea.val().substring(end);
-        textarea.val(text);
-
-        target.selectionStart = newCaretPosition;
-        target.selectionEnd = newCaretPosition;
-        target.focus();
-    }
-
-    function evalCell(target) {
+    function evalCell(target, js) {
         var textarea = $(target);
         var cell = textarea.parents('.cell');
-        var js = textarea.val();
         console.log(js);
         $.ajax({
             url: '/repl',
@@ -115,7 +115,7 @@
                 cell.find('.cell-output').text(data);
                 cell.find('.out').css('display', '');
 
-                var currentId = parseInt(cell.attr('id').replace(/^cell/, ''));
+                var currentId = parseInt(getId(cell ));
                 console.log('currentId: ' + currentId);
                 console.log('cellId: ' + nextCellId);
 
@@ -124,7 +124,7 @@
                 if (currentId === nextCellId) {
                     appendCell();
                 } else if (currentId < nextCellId) {
-                    $("#cell" + (currentId + 1)).find('textarea').focus();
+                    cell_id_to_code_mirror[currentId + 1].focus();
                 }
             })
             .fail(function () {
@@ -132,20 +132,14 @@
             });
     }
 
+    function getId(cell) {
+        return cell.attr('id').replace(/^cell/, '');
+    }
+
     $('#document').keydown(function (e) {
-        if ($(e.target).hasClass('cell-input')) {
-            if (e.keyCode == 9) {
-                // Tab was pressed: ident
-                e.preventDefault();
-                insertTab(e.target);
-            } else if (e.keyCode == 13 && e.shiftKey) {
-                // Shift+Enter was pressed: eval the cell content
-                e.preventDefault();
-                evalCell(e.target);
-            } else if (e.keyCode == 83 && (e.metaKey || e.ctrlKey)) {
-                e.preventDefault();
-                save();
-            }
+        if (e.keyCode == 83 && (e.metaKey || e.ctrlKey)) {
+            e.preventDefault();
+            save();
         }
     });
 })();

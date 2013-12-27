@@ -2,10 +2,14 @@ extends layout
 
 block head
     link(rel='stylesheet', href='/stylesheets/scrapbook.css')
+    // codemirror dependencies:
+    script(src='/codemirror/codemirror.js')
+    script(src='/codemirror/mode/javascript.js')
+    link(rel='stylesheet', href='/codemirror/codemirror.css')
+    link(rel='stylesheet', href='/codemirror/codemirror_custom.css')
 
 block body
     include scrapbook_header
     div#document.container
         include scrapbook_cell
-    script(src='/jquery/jquery.autosize.js')
     script(src='/javascripts/scrapbook.js')
