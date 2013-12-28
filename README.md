@@ -23,14 +23,14 @@ Installation
 -------------
 
 1. Install node from http://nodejs.org if you have not done it yet
-2. 'git clone https://github.com/mksenzov/i.js'
-3. 'cd i.js'
-4. 'npm install'
-5. 'node app.js'
-6. Browser, http://localhost:3000
+2. _git clone https://github.com/mksenzov/i.js_
+3. _cd i.js_
+4. _npm install_
+5. _node app.js_
+6. Browser: http://localhost:3000
 
 Usage
 -----
 
-* Use Shift + Enter to evaluate the current cell
+* Use Shift+Enter to evaluate the current cell
 * Use Ctrl+S (Meta+S) to save the current i.js scrapbook
