@@ -1,26 +1,21 @@
-{"name": "The good parts: curry", "cells": [
-    {
-        "in": "// This example was taken from Douglas Crockford “JavaScript The Good Parts”",
-        "out": "undefined"
-    },
-    {
-        "in": "Object.prototype.method = function (name, f) {\n\tthis.prototype[name] = f;\t\n\treturn this;\n}",
-        "out": "[Function]"
-    },
-    {
-        "in": "Function.method('curry', function() {\n\tvar slice = Array.prototype.slice,\n\t\targs = slice.apply(arguments),\n\t\tthat = this;\n\t\n\treturn function() {\n\t\treturn that.apply(null, args.concat(slice.apply(arguments)));\n\t}\n});",
-        "out": "[Function: Function]"
-    },
-    {
-        "in": "var add = function (x, y) {return x + y};",
-        "out": "undefined"
-    },
-    {
-        "in": "var add1 = add.curry(12);",
-        "out": "undefined"
-    },
-    {
-        "in": "add1(4);",
-        "out": "16"
-    }
-]}
+{
+    "name": "The good parts: curry",
+    "cells": [
+        {
+            "in": "// This example was taken from Douglas Crockford “JavaScript The Good Parts”",
+            "out": "undefined"
+        },
+        {
+            "in": "Object.prototype.method = function (name, f) {\n\tthis.prototype[name] = f;\t\n\treturn this;\n}",
+            "out": "[Function]"
+        },
+        {
+            "in": "Function.method('curry', function() {\n\tvar slice = Array.prototype.slice,\n\t\targs = slice.apply(arguments),\n\t\tthat = this;\n\t\n\treturn function() {\n\t\treturn that.apply(null, args.concat(slice.apply(arguments)));\n\t}\n});",
+            "out": "[Function: Function]"
+        },
+        {
+            "in": "var add = function (x, y) {return x + y};\nvar add1 = add.curry(12);\nadd1(4);",
+            "out": "16"
+        }
+    ]
+}

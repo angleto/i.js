@@ -30,7 +30,7 @@ exports.save = function (req, res) {
         logger.info("id: " + id);
         logger.debug("data: " + data);
         var file = path.join(config.workdir, id + ".json");
-        fs.writeFile(file, JSON.stringify(data), function (err) {
+        fs.writeFile(file, JSON.stringify(data, null, 4), function (err) {
             if (err) {
                 logger.error(err);
                 throw err;
