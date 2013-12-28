@@ -140,6 +140,19 @@
         var id = getId($(cell));
         delete cell_id_to_code_mirror[id];
         cell.remove();
+        console.log("id: " + id);
+        console.log("nextCellId: " + nextCellId);
+        if (id == nextCellId) {
+            // If we removed the last cell we have to decrease the nextCellId, otherwise the
+            // heuristic for deciding if we should create a new cell in appendCell(...):
+            //
+            //     if (currentId === nextCellId) { appendCell(); }
+            //
+            // will not work and we will not create the new cells anymore.
+
+            nextCellId--;
+            console.log("decrease nextCellId: " + nextCellId);
+        }
     });
 
     $('#document').keydown(function (e) {
