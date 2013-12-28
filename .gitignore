@@ -19,4 +19,4 @@ node_modules
 .idea/tasks.xml
 .idea/runConfigurations/*
 
-.scrapbooks
+.scrapbooks/*

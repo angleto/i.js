@@ -1,0 +1,18 @@
+{"name": "The good parts: method", "cells": [
+    {
+        "in": "// This example was taken from Douglas Crockford “JavaScript The Good Parts”",
+        "out": "'undefined'"
+    },
+    {
+        "in": "if (typeof Object.prototype.method === 'undefined') {\n\tObject.prototype.method = function (name, f) {\n\t\tif (!this.prototype[name]) {\n\t\t\tthis.prototype[name] = f;\t\n\t\t}\n\t\treturn this;\n\t}\n}",
+        "out": "[Function]"
+    },
+    {
+        "in": "Number.method('integer', function() {\n\treturn Math[this < 0 ? 'ceil' : 'floor'](this);\n});",
+        "out": "[Function: Number]"
+    },
+    {
+        "in": "(-32.3).integer()",
+        "out": "-32"
+    }
+]}

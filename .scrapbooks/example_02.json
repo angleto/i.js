@@ -1,0 +1,22 @@
+{"name": "The good parts: instance", "cells": [
+    {
+        "in": "// This example was taken from Douglas Crockford “JavaScript The Good Parts”",
+        "out": "'undefined'"
+    },
+    {
+        "in": "if (typeof Object.instance === 'undefined') {\n\tObject.instance = function(o) {\n\t\tvar F = function() {};\n\t\tF.prototype = o;\n\t\treturn new F();\n\t}\n}",
+        "out": "[Function]"
+    },
+    {
+        "in": "var dim = {w: 0, h: 0};\ndim.str = function() {return this.w + \" x \" + this.h}\ndim.str()",
+        "out": "'0 x 0'"
+    },
+    {
+        "in": "_3_x_3 = Object.instance(dim);\n_3_x_3.w = 3;\n_3_x_3.h = 3;\n_3_x_3.str();",
+        "out": "'3 x 3'"
+    },
+    {
+        "in": "dim.str();",
+        "out": "'0 x 0'"
+    }
+]}
