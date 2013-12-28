@@ -1,7 +1,7 @@
 i.js
 ====
 
-What  is i.js? i.js is a browser-based tool that hopes to become IPython Notebook for JavaScript one day, when it grows up. i.js allows you to
+What  is i.js? i.js is a browser-based tool that hopes to become IPython Notebook for JavaScript one day, when it grows up. i.js allows you to:
 
 * Create and manage multiple scrapbooks where you can experiment with JavaScript code snippets
 * Each code snippet in a scrapbook has it is own cell, you have the full control of what cells should be executed and in which order. At any given moment you can go to a previous cell, update the snippet and re-evaluate it.
