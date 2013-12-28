@@ -135,6 +135,13 @@
         return cell.attr('id').replace(/^cell/, '');
     }
 
+    $('#document').on('click', '.delete', function (e) {
+        var cell = $(e.target).parents('.cell');
+        var id = getId($(cell));
+        delete cell_id_to_code_mirror[id];
+        cell.remove();
+    });
+
     $('#document').keydown(function (e) {
         if (e.keyCode == 83 && (e.metaKey || e.ctrlKey)) {
             e.preventDefault();

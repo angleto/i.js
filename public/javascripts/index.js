@@ -13,11 +13,11 @@
         return s.join("");
     }
 
-    $("#new").click(function () {
+    $('#new').click(function () {
         window.open("/scrapbook/" + createUUID(), target = "_blank")
     });
 
-    $(".delete").click(function (e) {
+    $('.delete').click(function (e) {
         var result = confirm("Want to delete?");
         if (result) {
             var target = $(e.currentTarget);

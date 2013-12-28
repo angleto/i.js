@@ -1,11 +1,15 @@
 div#cell.cell.row(style='display:none;')
-    div.in.row
-        div.col-md-1
-            span.input-prompt
-        div.col-md-11
-            textarea.cell-input.form-control(rows=1, autocomplete="off", autocorrect="off", autocapitalize="off", spellcheck="false")
-    div.out.row(style='display:none;')
-        div.col-md-1
-            span.output-prompt
-        div.col-md-11
-            pre.cell-output
+    div.io.col-md-11
+        div.in.row
+            div.col-md-1
+                span.input-prompt
+            div.col-md-11
+                textarea.cell-input.form-control(rows=1, autocomplete="off", autocorrect="off", autocapitalize="off", spellcheck="false")
+        div.out.row(style='display:none;')
+            div.col-md-1
+                span.output-prompt
+            div.col-md-11
+                pre.cell-output
+    div.col-md-1
+        button.delete.btn.btn-default.btn-sm.pull-right(type='button')
+            span.glyphicon.glyphicon-remove-circle

@@ -25,9 +25,13 @@ form.navbar-form.navbar-left > * {
     color: darkred;
 }
 
-.cell * {
+.cell .io * {
     font-family: Courier;
     font-size: 12px;
+}
+
+.delete {
+    cursor: pointer;
 }
 
 div.dropdown-menu {
