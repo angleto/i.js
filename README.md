@@ -4,7 +4,7 @@ i.js
 Hello
 -----
 
-I have always admired IPython Notebook as the unique tool for interactive computing, however I was craving to be able to use a similar environment for JavaScript. There are a few reasons for that:
+IPython Notebook is an amazing tool for interactive computing. As the name implies, IPython is heavily python-focused  and I wanted to have a similar environment for JavaScript. There are a few reasons for that:
 
 * First of all I often need to run JS experiments. While browser's console and JS REPL are the reasonable approximations of this, I was spoiled by the IPython iterative evaluation and ability to run repetitive experiments while modifying the parts that require such modifications.
 * Second: matplotlib. Like seriously, IPython? I want to have d3.js. While this is possible to get D3 in IPython right now - it is, in my opinion, so convoluted that it kills the fun.
