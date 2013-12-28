@@ -14,10 +14,11 @@ Installation
 -------------
 
 1. Install node from http://nodejs.org if you have not done it yet
-2. git clone https://github.com/mksenzov/i.js
-3. cd i.js
-4. npm install
-5. node app
+2. 'git clone https://github.com/mksenzov/i.js'
+3. 'cd i.js'
+4. 'npm install'
+5. 'node app.js'
+6. Browser, http://localhost:3000
 
 Usage
 -----
