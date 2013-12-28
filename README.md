@@ -17,6 +17,7 @@ IPython Notebook is an amazing utility for interactive computing. As the name im
 * Second: matplotlib. Like seriously, IPython? I want to have d3.js. While this is possible to get D3 in IPython right now - it is, in my opinion, so convoluted that it kills the fun.
 * Third, IPython Notebook is a unique tool that represents an amazing new paradigm for doing research and running experiments and it should be made available to the widest audience possible. If you do not know what is IPython yet - you are missing out, go see it yourself: http://ipython.org
 
+![i.js screenshot](http://i.imgur.com/jkadPJi.png?1 "i.js screenshot")
 
 Installation
 -------------
