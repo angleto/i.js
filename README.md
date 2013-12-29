@@ -9,7 +9,6 @@ What  is i.js? i.js is a browser-based tool that hopes to become IPython Noteboo
 * Create and manage multiple scrapbooks where you can experiment with JavaScript code snippets (cells).
 * Each scrapbook is executed in it's very own node REPL, so they do not interfere. These node REPLs are separate from the actual node.js server, so no matter what happens in the REPL session the server will be up and running.
 
-
 Why?
 ----
 
@@ -37,6 +36,7 @@ Usage
 * Shortcuts
   * Use Shift+Enter to evaluate the current cell
   * Use Ctrl+S (Meta+S) to save the current i.js scrapbook
+  * Use Ctrl+Space to auto-complete the code.
 * Special commands (see http://nodejs.org/api/repl.html for details)
   * .break force complete current expression
   * .clear clear the context
