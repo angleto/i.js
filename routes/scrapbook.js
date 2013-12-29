@@ -88,7 +88,3 @@ exports.load = function (req, res) {
         });
     }
 };
-
-exports.autocomplete = function (req, res) {
-    res.send(["aaa", "bbb", "ccc"]);
-}

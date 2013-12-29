@@ -117,11 +117,12 @@
         }
 
         function filterHints(hints, token) {
-            console.log("filterHints([" + hints + "], " + token + ")")
+            console.log("filterHints([" + hints + "], " + token + ")");
             var result = [];
             if (token && token.length > 0) {
                 for (var i = 0; i < hints.length; i++) {
                     var hint = hints[i];
+                    console.log("hint: " + hint);
                     if (hint.indexOf(token) === 0) {
                         result.push(hint);
                     }
@@ -138,14 +139,17 @@
             console.log("local hints: " + hints);
             $.ajax({
                 url: '/autocomplete',
-                data: {'token': token.string},
-                type: 'get'
-            }).done(function (data) {
-                console.log(data);
+                data: {'token': token.string, 'id': id},
+                type: 'post'
+            }).done(function (remoteHints) {
+                console.log(remoteHints);
 
-                var remoteHints = filterHints(data, token.string);
+                for (var i = 0; i < remoteHints.length; i++) {
+                    console.log("remote: "+ remoteHints[i]);
+                    console.log("\t"+ typeof remoteHints[i]);
+                }
                 console.log("remote hints: " + remoteHints);
-                hints = hints.concat(remoteHints);
+                hints = hints.concat(remoteHints.map(function(o) {return o.toString()}));
                 console.log("complete hints: " + hints);
 
                 callback({list: hints,
@@ -158,7 +162,7 @@
 
         CodeMirror.commands.autocomplete = function(cm) {
             CodeMirror.showHint(cm, javascriptHint, {async: true});
-        }
+        };
 
 
         var code_mirror = CodeMirror.fromTextArea(textarea.get(0), {
@@ -238,9 +242,7 @@
         var id = getId($(cell));
         delete cell_id_to_code_mirror[id];
         cell.remove();
-    });
-
-    $('#document').keydown(function (e) {
+    }).keydown(function (e) {
         if (e.keyCode == 83 && (e.metaKey || e.ctrlKey)) {
             e.preventDefault();
             save();

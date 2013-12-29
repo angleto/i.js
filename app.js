@@ -29,10 +29,10 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 
 app.post('/repl', repl_manager.eval);
+app.post('/autocomplete', repl_manager.autocomplete);
 
 app.get('/scrapbook/*', scrapbook.scrapbook);
 app.get('/load', scrapbook.load);
-app.get('/autocomplete', scrapbook.autocomplete);
 app.post('/save', scrapbook.save);
 app.post('/delete', scrapbook.delete);
 

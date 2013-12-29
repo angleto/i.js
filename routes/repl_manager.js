@@ -6,34 +6,40 @@ var prompt = ">";
 
 var createServer = function (port) {
     logger.info("createServer()");
-    net.createServer(function (socket) {
-        logger.info("repl server started");
 
-        var repl_server = repl.start({
-            prompt: prompt,
-            input: socket,
-            output: socket
-        });
+    var server = {
+        repl_server: null,
+        listener : function(socket) {
+            logger.info("repl server started");
 
-        repl_server.on('exit', function () {
-            socket.end();
-        });
-    }).listen(port);
+            this.repl_server = repl.start({
+                prompt: prompt,
+                input: socket,
+                output: socket
+            });
 
-    return net.connect(port);
+            this.repl_server.on('exit', function () {
+                socket.end();
+            });
+        }
+    };
+
+    net.createServer(server.listener()).listen(port);
+
+    return {socket: net.connect(port), server: server.repl_server};
 };
 
 var getServer = function () {
     logger.info("getServer()");
 
-    var id2socket = {};
+    var id2server = {};
     var nextPort = 5001;
     return function (id) {
-        if (!id2socket[id]) {
+        if (!id2server[id]) {
             logger.info('create server on port: ' + nextPort);
-            id2socket[id] = createServer(nextPort++);
+            id2server[id] = createServer(nextPort++);
         }
-        return id2socket[id];
+        return id2server[id];
     };
 }();
 
@@ -50,7 +56,7 @@ exports.eval = function (req, res) {
         logger.info("id: " + id);
         logger.debug("js: " + js);
 
-        var socket = getServer(id);
+        var socket = getServer(id).socket;
 
         socket.once('data', function (b) {
             var result = 'undefined';
@@ -65,5 +71,31 @@ exports.eval = function (req, res) {
             res.send(result);
         });
         socket.write(js.trim() + '\n' + '.break\n');
+    }
+};
+
+
+exports.autocomplete = function (req, res) {
+    logger.info("autocomplete()");
+    if (!req.body) {
+        logger.info("missing request body");
+        return;
+    }
+
+    var id = req.body.id;
+    var token = req.body.token;
+    if (id && token) {
+        logger.info("id: " + id);
+        logger.debug("token: " + token);
+
+        var server = getServer(id).server;
+
+        var complete = repl.REPLServer.prototype.complete;
+        complete.apply(server, [token, function(err, completions) {
+            if (err) {
+                throw err;
+            }
+            res.send(completions);
+        }]);
     }
 };
