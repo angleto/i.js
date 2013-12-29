@@ -87,11 +87,15 @@
             clone.find('.out').css('display', '');
         }
 
+        CodeMirror.commands.autocomplete = function(cm) {
+            CodeMirror.showHint(cm, CodeMirror.hint.javascript);
+        }
         var code_mirror = CodeMirror.fromTextArea(textarea.get(0), {
             mode: 'text/javascript',
             indentUnit: 4,
             tabSize: 4,
             indentWithTabs: true,
+            extraKeys: {"Ctrl-Space": "autocomplete"},
             viewportMargin: Infinity
         });
         code_mirror.addKeyMap({
