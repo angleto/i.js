@@ -70,6 +70,35 @@
 
     var nextCellId = 0;
 
+    var javascriptKeywords = ["break",
+        "case",
+        "catch",
+        "continue",
+        "debugger",
+        "default",
+        "delete",
+        "do",
+        "else",
+        "false",
+        "finally",
+        "for",
+        "function",
+        "if",
+        "in",
+        "instanceof",
+        "new",
+        "null",
+        "return",
+        "switch",
+        "throw",
+        "true",
+        "try",
+        "typeof",
+        "var",
+        "void",
+        "while",
+        "with"];
+
     function appendCell(cell_in, cell_out) {
         nextCellId++;
         var clone = $("#cell").clone();
@@ -87,9 +116,29 @@
             clone.find('.out').css('display', '');
         }
 
-        CodeMirror.commands.autocomplete = function(cm) {
-            CodeMirror.showHint(cm, CodeMirror.hint.javascript);
+
+        function javascriptHint(editor, options) {
+            var cur = editor.getCursor();
+            var token =  editor.getTokenAt(cur);
+
+            var hints = [];
+            if (token.string && token.string.length > 0) {
+                for (var i = 0; i < javascriptKeywords.length; i++) {
+                    if (javascriptKeywords[i].indexOf(token.string) === 0) {
+                        hints.push(javascriptKeywords[i]);
+                    }
+                }
+            }
+            return {list: hints,
+                from: CodeMirror.Pos(cur.line, token.start),
+                to: CodeMirror.Pos(cur.line, token.end)};
         }
+
+        CodeMirror.commands.autocomplete = function(cm) {
+            CodeMirror.showHint(cm, javascriptHint);
+        }
+
+
         var code_mirror = CodeMirror.fromTextArea(textarea.get(0), {
             mode: 'text/javascript',
             indentUnit: 4,
