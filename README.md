@@ -1,12 +1,14 @@
 i.js
 ====
 
-What  is i.js? i.js is a browser-based tool that hopes to become IPython Notebook for JavaScript one day, when it grows up. i.js allows you to:
+What  is i.js? i.js is a browser-based tool that hopes to become IPython Notebook for JavaScript one day, when it grows up. As of now i.js has the following features:
 
-* Create and manage multiple scrapbooks where you can experiment with JavaScript code snippets
-* Each code snippet in a scrapbook has it is own cell, you have the full control of what cells should be executed and in which order. At any given moment you can go to a previous cell, update the snippet and re-evaluate it.
+* Code syntax highlight.
+* Code auto-completion.
+* Each code snippet in a scrapbook has it's very own cell, you have the full control of which cells should be executed and in what order. At any given moment you can go to a previous cell, update the snippet and re-evaluate your results.
+* Create and manage multiple scrapbooks where you can experiment with JavaScript code snippets (cells).
 * Each scrapbook is executed in it's very own node REPL, so they do not interfere. These node REPLs are separate from the actual node.js server, so no matter what happens in the REPL session the server will be up and running.
-* JavaScript code has syntax highlight.
+
 
 Why?
 ----

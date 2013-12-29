@@ -4,29 +4,28 @@ var logger = require('log4js').getLogger("repl_manager"),
 
 var prompt = ">";
 
-var createServer = function (port) {
+// TODO support error in the callback
+var createServer = function (port, callback) {
     logger.info("createServer()");
 
-    var server = {
-        repl_server: null,
-        listener : function(socket) {
-            logger.info("repl server started");
+    var client_socket;
+    net.createServer(function(server_socket) {
+        logger.info("repl server started");
 
-            this.repl_server = repl.start({
-                prompt: prompt,
-                input: socket,
-                output: socket
-            });
+        var repl_server = repl.start({
+            prompt: prompt,
+            input: server_socket,
+            output: server_socket
+        });
 
-            this.repl_server.on('exit', function () {
-                socket.end();
-            });
-        }
-    };
+        repl_server.on('exit', function () {
+            server_socket.end();
+        });
 
-    net.createServer(server.listener()).listen(port);
+        callback({socket: client_socket, server: repl_server})
+    }).listen(port);
 
-    return {socket: net.connect(port), server: server.repl_server};
+    client_socket = net.connect(port);
 };
 
 var getServer = function () {
@@ -34,12 +33,17 @@ var getServer = function () {
 
     var id2server = {};
     var nextPort = 5001;
-    return function (id) {
-        if (!id2server[id]) {
+    return function (id, callback) {
+        var server = id2server[id];
+        if (server) {
+            callback(server);
+        } else {
             logger.info('create server on port: ' + nextPort);
-            id2server[id] = createServer(nextPort++);
+            createServer(nextPort++, function(server_connection) {
+                id2server[id] = server_connection;
+                callback(server_connection);
+            });
         }
-        return id2server[id];
     };
 }();
 
@@ -56,21 +60,22 @@ exports.eval = function (req, res) {
         logger.info("id: " + id);
         logger.debug("js: " + js);
 
-        var socket = getServer(id).socket;
-
-        socket.once('data', function (b) {
-            var result = 'undefined';
-            var out = b.toString().split(prompt);
-            for (var i = out.length - 1; i >= 0; i--) {
-                result = out[i].trim().replace(/^(\.\.+\s+)+/, "");
-                if (result.length > 0) {
-                    break;
+        getServer(id, function(server_connection) {
+            var socket = server_connection.socket;
+            socket.once('data', function (b) {
+                var result = 'undefined';
+                var out = b.toString().split(prompt);
+                for (var i = out.length - 1; i >= 0; i--) {
+                    result = out[i].trim().replace(/^(\.\.+\s+)+/, "");
+                    if (result.length > 0) {
+                        break;
+                    }
                 }
-            }
-            logger.debug('result: ' + result);
-            res.send(result);
+                logger.debug('result: ' + result);
+                res.send(result);
+            });
+            socket.write(js.trim() + '\n' + '.break\n');
         });
-        socket.write(js.trim() + '\n' + '.break\n');
     }
 };
 
@@ -88,14 +93,15 @@ exports.autocomplete = function (req, res) {
         logger.info("id: " + id);
         logger.debug("token: " + token);
 
-        var server = getServer(id).server;
-
-        var complete = repl.REPLServer.prototype.complete;
-        complete.apply(server, [token, function(err, completions) {
-            if (err) {
-                throw err;
-            }
-            res.send(completions);
-        }]);
+        getServer(id, function(server_connection) {
+            var server = server_connection.server;
+            var complete = repl.REPLServer.prototype.complete;
+            complete.apply(server, [token, function(err, completions) {
+                if (err) {
+                    throw err;
+                }
+                res.send(completions);
+            }]);
+        });
     }
 };
