@@ -116,26 +116,48 @@
             clone.find('.out').css('display', '');
         }
 
-
-        function javascriptHint(editor, options) {
-            var cur = editor.getCursor();
-            var token =  editor.getTokenAt(cur);
-
-            var hints = [];
-            if (token.string && token.string.length > 0) {
-                for (var i = 0; i < javascriptKeywords.length; i++) {
-                    if (javascriptKeywords[i].indexOf(token.string) === 0) {
-                        hints.push(javascriptKeywords[i]);
+        function filterHints(hints, token) {
+            console.log("filterHints([" + hints + "], " + token + ")")
+            var result = [];
+            if (token && token.length > 0) {
+                for (var i = 0; i < hints.length; i++) {
+                    var hint = hints[i];
+                    if (hint.indexOf(token) === 0) {
+                        result.push(hint);
                     }
                 }
             }
-            return {list: hints,
-                from: CodeMirror.Pos(cur.line, token.start),
-                to: CodeMirror.Pos(cur.line, token.end)};
+            return result;
+        }
+
+        function javascriptHint(editor, callback) {
+            var cur = editor.getCursor();
+            var token =  editor.getTokenAt(cur);
+            var hints = filterHints(javascriptKeywords, token.string);
+
+            console.log("local hints: " + hints);
+            $.ajax({
+                url: '/autocomplete',
+                data: {'token': token.string},
+                type: 'get'
+            }).done(function (data) {
+                console.log(data);
+
+                var remoteHints = filterHints(data, token.string);
+                console.log("remote hints: " + remoteHints);
+                hints = hints.concat(remoteHints);
+                console.log("complete hints: " + hints);
+
+                callback({list: hints,
+                        from: CodeMirror.Pos(cur.line, token.start),
+                        to: CodeMirror.Pos(cur.line, token.end)});
+            }).fail(function () {
+                console.log("error!");
+            });
         }
 
         CodeMirror.commands.autocomplete = function(cm) {
-            CodeMirror.showHint(cm, javascriptHint);
+            CodeMirror.showHint(cm, javascriptHint, {async: true});
         }
 
 
@@ -145,6 +167,7 @@
             tabSize: 4,
             indentWithTabs: true,
             extraKeys: {"Ctrl-Space": "autocomplete"},
+            hint: javascriptHint,
             viewportMargin: Infinity
         });
         code_mirror.addKeyMap({

@@ -32,6 +32,7 @@ app.post('/repl', repl_manager.eval);
 
 app.get('/scrapbook/*', scrapbook.scrapbook);
 app.get('/load', scrapbook.load);
+app.get('/autocomplete', scrapbook.autocomplete);
 app.post('/save', scrapbook.save);
 app.post('/delete', scrapbook.delete);
 
