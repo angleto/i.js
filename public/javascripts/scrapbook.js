@@ -70,35 +70,6 @@
 
     var nextCellId = 0;
 
-    var javascriptKeywords = ["break",
-        "case",
-        "catch",
-        "continue",
-        "debugger",
-        "default",
-        "delete",
-        "do",
-        "else",
-        "false",
-        "finally",
-        "for",
-        "function",
-        "if",
-        "in",
-        "instanceof",
-        "new",
-        "null",
-        "return",
-        "switch",
-        "throw",
-        "true",
-        "try",
-        "typeof",
-        "var",
-        "void",
-        "while",
-        "with"];
-
     function appendCell(cell_in, cell_out) {
         nextCellId++;
         var clone = $("#cell").clone();
@@ -116,41 +87,16 @@
             clone.find('.out').css('display', '');
         }
 
-        function filterHints(hints, token) {
-            console.log("filterHints([" + hints + "], " + token + ")");
-            var result = [];
-            if (token && token.length > 0) {
-                for (var i = 0; i < hints.length; i++) {
-                    var hint = hints[i];
-                    console.log("hint: " + hint);
-                    if (hint.indexOf(token) === 0) {
-                        result.push(hint);
-                    }
-                }
-            }
-            return result;
-        }
-
         function javascriptHint(editor, callback) {
             var cur = editor.getCursor();
             var token =  editor.getTokenAt(cur);
-            var hints = filterHints(javascriptKeywords, token.string);
 
-            console.log("local hints: " + hints);
             $.ajax({
                 url: '/autocomplete',
                 data: {'token': token.string, 'id': id},
                 type: 'post'
-            }).done(function (remoteHints) {
-                console.log(remoteHints);
-
-                for (var i = 0; i < remoteHints.length; i++) {
-                    console.log("remote: "+ remoteHints[i]);
-                    console.log("\t"+ typeof remoteHints[i]);
-                }
-                console.log("remote hints: " + remoteHints);
-                hints = hints.concat(remoteHints.map(function(o) {return o.toString()}));
-                console.log("complete hints: " + hints);
+            }).done(function (hints) {
+                console.log(hints);
 
                 callback({list: hints,
                         from: CodeMirror.Pos(cur.line, token.start),

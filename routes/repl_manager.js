@@ -80,6 +80,23 @@ exports.eval = function (req, res) {
 };
 
 
+/**
+ * Flatten multi-dimensional array into 1D.
+ */
+var flatten = function(a, result) {
+    if (!result) {
+        result = [];
+    }
+
+    if(Array.isArray(a)) {
+        for (var i = 0; i < a.length; i++) {
+            flatten(a[i], result);
+        }
+    } else {
+        result.push(a);
+    }
+    return result;
+}
 exports.autocomplete = function (req, res) {
     logger.info("autocomplete()");
     if (!req.body) {
@@ -100,7 +117,7 @@ exports.autocomplete = function (req, res) {
                 if (err) {
                     throw err;
                 }
-                res.send(completions);
+                res.send(flatten(completions));
             }]);
         });
     }
