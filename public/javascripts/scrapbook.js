@@ -105,7 +105,9 @@
         var textarea = $(target);
         var cell = textarea.parents('.cell');
 
-        console.log(js);
+        console.log("js: " + js);
+        js = preprocessJS(js);
+        console.log("preprocessed: " + js);
         $.ajax({
             url: '/repl',
             data: {'js': js, 'id': id},
@@ -130,6 +132,25 @@
         .fail(function () {
             console.log("error!");
         });
+    }
+
+    function preprocessJS(js) {
+        var lines = js.split('\n');
+        var preprocessedJS = '';
+
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i];
+            // Filter out unwanted node REPL's special commands
+            if (line === '.help' ||
+                line === '.exit' ||
+                line === '.save' ||
+                line === '.load') {
+                continue;
+            } else {
+                preprocessedJS += line + '\n';
+            }
+        }
+        return preprocessedJS;
     }
 
     function getId(cell) {

@@ -14,6 +14,7 @@ block controls
                     b.caret
                     div.dropdown-menu
                         h4="Welcome to i.js"
+                        a(href="#")="Shortcuts"
                         dl
                             dt
                                 a(href="#")="Shift-Enter"
@@ -23,6 +24,17 @@ block controls
                                 a(href="#")="Ctrl-S (Meta-S)"
                             dd
                                 span="save current document"
+                        br
+                        a(href="http://nodejs.org/api/repl.html")="Special commands"
+                        dl
+                            dt
+                                a(href="#")=".break"
+                            dd
+                                span="While inputting a multi-line expression, sometimes you get lost or just don't care about completing it. .break will start over."
+                            dt
+                                a(href="#")=".clear"
+                            dd
+                                span="Resets the context object to an empty object and clears any multi-line expression."
                         br
                         a(href="https://github.com/mksenzov/i.js")="i.js on GitHub"
 
