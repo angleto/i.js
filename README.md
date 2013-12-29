@@ -32,5 +32,9 @@ Installation
 Usage
 -----
 
-* Use Shift+Enter to evaluate the current cell
-* Use Ctrl+S (Meta+S) to save the current i.js scrapbook
+* Shortcuts
+  * Use Shift+Enter to evaluate the current cell
+  * Use Ctrl+S (Meta+S) to save the current i.js scrapbook
+* Special commands (see http://nodejs.org/api/repl.html for details)
+  * .break force complete current expression
+  * .clear clear the context
