@@ -79,25 +79,6 @@ exports.eval = function (req, res) {
     }
 };
 
-
-/**
- * Flatten multi-dimensional array into 1D.
- */
-var flatten = function(a, result) {
-    if (!result) {
-        result = [];
-    }
-
-    if(Array.isArray(a)) {
-        for (var i = 0; i < a.length; i++) {
-            flatten(a[i], result);
-        }
-    } else {
-        result.push(a);
-    }
-    return result;
-};
-
 exports.autocomplete = function (req, res) {
     logger.info("autocomplete()");
     if (!req.body) {
@@ -118,12 +99,13 @@ exports.autocomplete = function (req, res) {
                 if (err) {
                     throw err;
                 }
-                var completions = flatten(completions);
+                //var completions = flatten(completions);
                 if (completions.length >= 2) {
                     // The last suggestion is the original token text,
                     // we will use it to filter out auto-completion prefixes.
-                    var head = completions.slice(0, completions.length - 1);
-                    var tail = completions[completions.length - 1];
+                    var head = completions[0];
+                    var tail = completions[1];
+
                     var result = head.map(function(item) {
                        if (item.indexOf(tail) === 0) {
                            return item.substring(tail.length);
