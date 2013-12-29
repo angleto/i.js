@@ -89,17 +89,19 @@
 
         function javascriptHint(editor, callback) {
             var cur = editor.getCursor();
-            var token =  editor.getTokenAt(cur);
+            var token = editor.getTokenAt(cur);
+            var s =  editor.getValue();
+            console.log("token:" + token);
 
             $.ajax({
                 url: '/autocomplete',
-                data: {'token': token.string, 'id': id},
+                data: {'string': s, 'id': id},
                 type: 'post'
             }).done(function (hints) {
                 console.log(hints);
 
                 callback({list: hints,
-                        from: CodeMirror.Pos(cur.line, token.start),
+                        from: CodeMirror.Pos(cur.line, token.end),
                         to: CodeMirror.Pos(cur.line, token.end)});
             }).fail(function () {
                 console.log("error!");

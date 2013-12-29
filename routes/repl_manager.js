@@ -96,7 +96,8 @@ var flatten = function(a, result) {
         result.push(a);
     }
     return result;
-}
+};
+
 exports.autocomplete = function (req, res) {
     logger.info("autocomplete()");
     if (!req.body) {
@@ -105,19 +106,34 @@ exports.autocomplete = function (req, res) {
     }
 
     var id = req.body.id;
-    var token = req.body.token;
-    if (id && token) {
+    var s = req.body.string;
+    if (id && s) {
         logger.info("id: " + id);
-        logger.debug("token: " + token);
+        logger.debug("s: " + s);
 
         getServer(id, function(server_connection) {
             var server = server_connection.server;
             var complete = repl.REPLServer.prototype.complete;
-            complete.apply(server, [token, function(err, completions) {
+            complete.apply(server, [s, function(err, completions) {
                 if (err) {
                     throw err;
                 }
-                res.send(flatten(completions));
+                var completions = flatten(completions);
+                if (completions.length >= 2) {
+                    // The last suggestion is the original token text,
+                    // we will use it to filter out auto-completion prefixes.
+                    var head = completions.slice(0, completions.length - 1);
+                    var tail = completions[completions.length - 1];
+                    var result = head.map(function(item) {
+                       if (item.indexOf(tail) === 0) {
+                           return item.substring(tail.length);
+                       }
+                       return item;
+                    });
+                    res.send(result);
+                } else {
+                    res.send(completions);
+                }
             }]);
         });
     }
