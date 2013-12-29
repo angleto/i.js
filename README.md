@@ -13,11 +13,11 @@ What  is i.js? i.js is a browser-based tool that hopes to become IPython Noteboo
 Why?
 ----
 
-IPython Notebook is an amazing utility for interactive computing. As the name implies, IPython is heavily python-focused and I wanted to have a similar environment for JavaScript. There are a few reasons for that:
+IPython Notebook is an amazing utility for interactive computing. As the name implies, IPython is heavily python-focused and I wanted to have a similar environment for JavaScript. The following are my reasons for developing this tool:
 
-* First of all I often need to run JS experiments. While browser's console and JS REPL are the reasonable approximations of this, I was spoiled by the IPython iterative evaluation and ability to run repetitive experiments while modifying the parts that require such modifications.
-* Second: matplotlib. Like seriously, IPython? I want to have d3.js. While this is possible to get D3 in IPython right now - it is, in my opinion, so convoluted that it kills the fun.
-* Third, IPython Notebook is a unique tool that represents an amazing new paradigm for doing research and running experiments and it should be made available to the widest audience possible. If you do not know what is IPython yet - you are missing out, go see it yourself: http://ipython.org
+* I often need to run JS experiments. Although browser consoles and JS REPL are decent alternatives, I was spoiled by the IPython iterative evaluation and ability to run repetitive experiments while modifying the parts of code that require modifications.
+* matplotlib. Like seriously, IPython, dude? I want to have d3.js. While this is possible to get D3 in IPython right now - it is, in my opinion, so convoluted that it kills the fun.
+* IPython Notebook is a unique tool that represents an amazing new paradigm for research and experimentation. It should be made available to the widest audience possible. If you do not know what is IPython yet - you are missing out. Check it out for yourself: http://ipython.org
 
 ![i.js screenshot](http://i.imgur.com/jkadPJi.png?1 "i.js screenshot")
 
@@ -34,5 +34,9 @@ Installation
 Usage
 -----
 
-* Use Shift+Enter to evaluate the current cell
-* Use Ctrl+S (Meta+S) to save the current i.js scrapbook
+* Shortcuts
+  * Use Shift+Enter to evaluate the current cell
+  * Use Ctrl+S (Meta+S) to save the current i.js scrapbook
+* Special commands (see http://nodejs.org/api/repl.html for details)
+  * .break force complete current expression
+  * .clear clear the context
