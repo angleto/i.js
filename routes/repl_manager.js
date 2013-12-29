@@ -4,36 +4,46 @@ var logger = require('log4js').getLogger("repl_manager"),
 
 var prompt = ">";
 
-var createServer = function (port) {
+// TODO support error in the callback
+var createServer = function (port, callback) {
     logger.info("createServer()");
-    net.createServer(function (socket) {
+
+    var client_socket;
+    net.createServer(function(server_socket) {
         logger.info("repl server started");
 
         var repl_server = repl.start({
             prompt: prompt,
-            input: socket,
-            output: socket
+            input: server_socket,
+            output: server_socket
         });
 
         repl_server.on('exit', function () {
-            socket.end();
+            server_socket.end();
         });
+
+        callback({socket: client_socket, server: repl_server})
     }).listen(port);
 
-    return net.connect(port);
+    client_socket = net.connect(port);
 };
 
 var getServer = function () {
     logger.info("getServer()");
 
-    var id2socket = {};
+    var id2server = {};
     var nextPort = 5001;
-    return function (id) {
-        if (!id2socket[id]) {
+    return function (id, callback) {
+        var server = id2server[id];
+        if (server) {
+            callback(server);
+        } else {
             logger.info('create server on port: ' + nextPort);
-            id2socket[id] = createServer(nextPort++);
+            createServer(nextPort++, function(server_connection) {
+                id2server[id] = server_connection;
+                callback(server_connection);
+            });
         }
-        return id2socket[id];
     };
 }();
 
@@ -50,20 +60,63 @@ exports.eval = function (req, res) {
         logger.info("id: " + id);
         logger.debug("js: " + js);
 
-        var socket = getServer(id);
-
-        socket.once('data', function (b) {
-            var result = 'undefined';
-            var out = b.toString().split(prompt);
-            for (var i = out.length - 1; i >= 0; i--) {
-                result = out[i].trim().replace(/^(\.\.+\s+)+/, "");
-                if (result.length > 0) {
-                    break;
+        getServer(id, function(server_connection) {
+            var socket = server_connection.socket;
+            socket.once('data', function (b) {
+                var result = 'undefined';
+                var out = b.toString().split(prompt);
+                for (var i = out.length - 1; i >= 0; i--) {
+                    result = out[i].trim().replace(/^(\.\.+\s+)+/, "");
+                    if (result.length > 0) {
+                        break;
+                    }
                 }
-            }
-            logger.debug('result: ' + result);
-            res.send(result);
+                logger.debug('result: ' + result);
+                res.send(result);
+            });
+            socket.write(js.trim() + '\n' + '.break\n');
         });
-        socket.write(js.trim() + '\n' + '.break\n');
+    }
+};
+
+exports.autocomplete = function (req, res) {
+    logger.info("autocomplete()");
+    if (!req.body) {
+        logger.info("missing request body");
+        return;
+    }
+
+    var id = req.body.id;
+    var s = req.body.string;
+    if (id && s) {
+        logger.info("id: " + id);
+        logger.debug("s: " + s);
+
+        getServer(id, function(server_connection) {
+            var server = server_connection.server;
+            var complete = repl.REPLServer.prototype.complete;
+            complete.apply(server, [s, function(err, completions) {
+                if (err) {
+                    throw err;
+                }
+                //var completions = flatten(completions);
+                if (completions.length >= 2) {
+                    // The last suggestion is the original token text,
+                    // we will use it to filter out auto-completion prefixes.
+                    var head = completions[0];
+                    var tail = completions[1];
+
+                    var result = head.map(function(item) {
+                       if (item.indexOf(tail) === 0) {
+                           return item.substring(tail.length);
+                       }
+                       return item;
+                    });
+                    res.send(result);
+                } else {
+                    res.send(completions);
+                }
+            }]);
+        });
     }
 };

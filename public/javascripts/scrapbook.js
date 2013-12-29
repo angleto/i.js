@@ -87,11 +87,39 @@
             clone.find('.out').css('display', '');
         }
 
+        function javascriptHint(editor, callback) {
+            var cur = editor.getCursor();
+            var token = editor.getTokenAt(cur);
+            var s =  editor.getValue();
+            console.log("token:" + token);
+
+            $.ajax({
+                url: '/autocomplete',
+                data: {'string': s, 'id': id},
+                type: 'post'
+            }).done(function (hints) {
+                console.log(hints);
+
+                callback({list: hints,
+                        from: CodeMirror.Pos(cur.line, token.end),
+                        to: CodeMirror.Pos(cur.line, token.end)});
+            }).fail(function () {
+                console.log("error!");
+            });
+        }
+
+        CodeMirror.commands.autocomplete = function(cm) {
+            CodeMirror.showHint(cm, javascriptHint, {async: true});
+        };
+
+
         var code_mirror = CodeMirror.fromTextArea(textarea.get(0), {
             mode: 'text/javascript',
             indentUnit: 4,
             tabSize: 4,
             indentWithTabs: true,
+            extraKeys: {"Ctrl-Space": "autocomplete"},
+            hint: javascriptHint,
             viewportMargin: Infinity
         });
         code_mirror.addKeyMap({
@@ -162,9 +190,7 @@
         var id = getId($(cell));
         delete cell_id_to_code_mirror[id];
         cell.remove();
-    });
-
-    $('#document').keydown(function (e) {
+    }).keydown(function (e) {
         if (e.keyCode == 83 && (e.metaKey || e.ctrlKey)) {
             e.preventDefault();
             save();
