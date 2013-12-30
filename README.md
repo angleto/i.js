@@ -1,7 +1,7 @@
 i.js
 ====
 
-What  is [i.js](https://github.com/mksenzov/i.js)? It is is a browser-based tool that brings the style of computation pioneered by [IPython Notebook](http://ipython.org/notebook.html) to those of us, who want to use JavaScript. 
+What  is [i.js](https://github.com/mksenzov/i.js)? It is is a browser-based tool that brings the style of computation pioneered by [IPython Notebook](http://ipython.org/notebook.html) to those of us who want to use JavaScript. 
 
 If you have never seen IPython Notebook before, then you will unlikely find this explanation satisfactory. It seems to me that the easiest way to show what I mean is to quote the original IPython Notebook's documentation:
 
