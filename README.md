@@ -38,7 +38,7 @@ How it was built?
 
 i.js is built on top of:
 
-1. node.js + express + jade
+1. [node.js](http://nodejs.org) + [express](http://expressjs.com/api.html) + [jade](http://jade-lang.com)
 2. [Bootstrap](http://getbootstrap.com) as you can immediately see from the screenshot above
 2. node.js [REPL](http://nodejs.org/api/repl.html) for evaluating scrapbooks and getting code auto-completion hints
 3. [JQuery](http://jquery.com) for browser scripting
