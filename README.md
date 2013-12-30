@@ -5,7 +5,7 @@ What  is [i.js](https://github.com/mksenzov/i.js)? It is is a browser-based tool
 
 If you have never seen IPython Notebook before, then you will unlikely find this explanation satisfactory. It seems to me that the easiest way to show what I mean is to quote the original IPython Notebook's documentation:
 
-> The [Ipython] Notebook [...] is [..] providing a web-based application suitable for capturing the whole computation process: developing, documenting, and executing code, as well as communicating the results. The IPython notebook combines two components:
+> The [IPython] Notebook [...] is [..] providing a web-based application suitable for capturing the whole computation process: developing, documenting, and executing code, as well as communicating the results. The IPython notebook combines two components:
 
 > **A web application**: a browser-based tool for interactive authoring of documents which combine explanatory text, mathematics, computations and their rich media output.
 
