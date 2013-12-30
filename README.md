@@ -1,34 +1,58 @@
 i.js
 ====
 
-What  is i.js? i.js is a browser-based tool that hopes to become IPython Notebook for JavaScript one day, when it grows up. As of now i.js has the following features:
+What  is [i.js](https://github.com/mksenzov/i.js)? It is is a browser-based tool that brings the style of computation pioneered by [IPython Notebook](http://ipython.org/notebook.html) to those of us, who want to use JavaScript. 
 
-* Code syntax highlight.
-* Code auto-completion.
-* Each code snippet in a scrapbook has it's very own cell, you have the full control of which cells should be executed and in what order. At any given moment you can go to a previous cell, update the snippet and re-evaluate your results.
-* Create and manage multiple scrapbooks where you can experiment with JavaScript code snippets (cells).
-* Each scrapbook is executed in it's very own node REPL, so they do not interfere. These node REPLs are separate from the actual node.js server, so no matter what happens in the REPL session the server will be up and running.
+If you have never seen IPython Notebook before, then you will unlikely find this explanation satisfactory. It seems to me that the easiest way to show what I mean is to quote the original IPython Notebook's documentation:
+
+> The [Ipython] Notebook [...] is [..] providing a web-based application suitable for capturing the whole computation process: developing, documenting, and executing code, as well as communicating the results. The IPython notebook combines two components:
+
+> **A web application**: a browser-based tool for interactive authoring of documents which combine explanatory text, mathematics, computations and their rich media output.
+
+> **Notebook documents**: a representation of all content visible in the web application, including inputs and outputs of the computations, explanatory text, mathematics, images, and rich media representations of objects.
+
+As of now i.js has the following features:
+
+* **Syntax highlight**
+* **Code auto-completion**
+* **Basic management** of i.js documents (from this point on I will call them 'scrapbooks'): create, delete, rename.
+* **REPL/server decoupling.** Each scrapbook has it's own JavaScript REPL attached. That means that when you use different scrapbooks they do not interfere. It also means that scrapbook evaluation environment ins separated from the actual node.js server, so no matter what happens in a REPL session the i.js core server will continue to be up and running.
+* **Full execution flow control.** A scrapbook is essentially a collections of small JavaScript code snippets ('cells') that can be evaluated and edited independently. As a user you have the full control of which cells should be executed and in what order. You can also edit and re-evaluate cells as you see fit, that allows one to run iterative experiments with a super-short feedback cycle.
+
+How about a screenshot?
+-----------------------
+
+![i.js screenshot](http://i.imgur.com/jkadPJi.png?1 "i.js screenshot")
 
 Why?
 ----
 
-IPython Notebook is an amazing utility for interactive computing. As the name implies, IPython is heavily python-focused and I wanted to have a similar environment for JavaScript. The following are my reasons for developing this tool:
+The following are my reasons for developing i.js:
 
-* I often need to run JS experiments. Although browser consoles and JS REPL are decent alternatives, I was spoiled by the IPython iterative evaluation and ability to run repetitive experiments while modifying the parts of code that require modifications.
-* matplotlib. Like seriously, IPython, dude? I want to have d3.js. While this is possible to get D3 in IPython right now - it is, in my opinion, so convoluted that it kills the fun.
-* IPython Notebook is a unique tool that represents an amazing new paradigm for research and experimentation. It should be made available to the widest audience possible. If you do not know what is IPython yet - you are missing out. Check it out for yourself: http://ipython.org
+* **Language.** As the name implies, IPython Notebook is heavily python-focused. I often need to run JS experiments. Although browser consoles and JS REPL are decent alternatives, I was looking for the IPython Notebook style of iterative computation and ability to run repetitive experiments.
+* **Matplotlib.** I want to have d3.js. While it seems possible to get D3-based grphics in IPython right now - it is, in my opinion, so convoluted that it kills the fun.
+* **Great model.** IPython Notebook is a unique tool that represents an amazing new paradigm for research and experimentation. It should be made available to the widest audience possible.
 
-![i.js screenshot](http://i.imgur.com/jkadPJi.png?1 "i.js screenshot")
+How it was built?
+-----------------
+
+i.js is built on top of:
+
+1. node.js + express + jade
+2. [Bootstrap](http://getbootstrap.com) as you can immediately see from the screenshot above
+2. node.js [REPL](http://nodejs.org/api/repl.html) for evaluating scrapbooks and getting code auto-completion hints
+3. [JQuery](http://jquery.com) for browser scripting
+3. [CodeMirror](http://codemirror.net) for code syntax-highlight and auto-completion UI
 
 Installation
 -------------
 
 1. Install node from http://nodejs.org if you have not done it yet
-2. _git clone https://github.com/mksenzov/i.js_
-3. _cd i.js_
-4. _npm install_
-5. _node app.js_
-6. Browser: http://localhost:3000
+2. Clone i.js from git: _git clone https://github.com/mksenzov/i.js_
+3. Go to the cloned repo: _cd i.js_
+4. Install all i.js dependencies: _npm install_
+5. Start i.js server: _node app.js_
+6. Now you can open i.js in the browser: http://localhost:3000
 
 Usage
 -----
