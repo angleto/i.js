@@ -61,6 +61,7 @@ Usage
   * Use Shift+Enter to evaluate the current cell
   * Use Ctrl+S (Meta+S) to save the current i.js scrapbook
   * Use Ctrl+Space to auto-complete the code.
-* Special commands (see http://nodejs.org/api/repl.html for details)
+* Special commands
   * .break force complete current expression
   * .clear clear the context
+  * more details on [REPL doc page](http://nodejs.org/api/repl.html#repl_repl_features)
