@@ -13,8 +13,7 @@ If you have never seen IPython Notebook before, then you will unlikely find this
 
 As of now i.js has the following features:
 
-* **Syntax highlight**
-* **Code auto-completion**
+* **Syntax highlight** and **Code auto-completion**
 * **Basic management** of i.js documents (from this point on I will call them 'scrapbooks'): create, delete, rename.
 * **REPL/server decoupling.** Each scrapbook has it's own JavaScript REPL attached. That means that when you use different scrapbooks they do not interfere. It also means that scrapbook evaluation environment is separated from the actual node.js server, so no matter what happens in a REPL session the core i.js server should be up and running.
 * **Full execution flow control.** A scrapbook is essentially a collections of small JavaScript code snippets ('cells') that can be evaluated and edited independently. You have the full control of which cells should be executed and in what order. You can also edit and re-evaluate cells as you see fit, that allows one to run iterative experiments with a super-short feedback cycle.
