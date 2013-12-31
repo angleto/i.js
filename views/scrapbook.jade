@@ -3,12 +3,12 @@ extends layout
 block head
     link(rel='stylesheet', href='/stylesheets/scrapbook.css')
     // codemirror dependencies:
-    script(src='/3rdparty/codemirror/codemirror.js')
-    script(src='/3rdparty/codemirror/mode/javascript.js')
-    script(src='/3rdparty/codemirror/addon/hint/show-hint.js')
-    link(rel='stylesheet', href='/3rdparty/codemirror/codemirror.css')
-    link(rel='stylesheet', href='/3rdparty/codemirror/addon/hint/show-hint.css')
-    link(rel='stylesheet', href='/3rdparty/codemirror/codemirror_custom.css')
+    script(src='/codemirror/lib/codemirror.js')
+    script(src='/codemirror/mode/javascript/javascript.js')
+    script(src='/codemirror/addon/hint/show-hint.js')
+    link(rel='stylesheet', href='/codemirror/lib/codemirror.css')
+    link(rel='stylesheet', href='/codemirror/addon/hint/show-hint.css')
+    link(rel='stylesheet', href='/stylesheets/codemirror_custom.css')
 
 block body
     include scrapbook_header
