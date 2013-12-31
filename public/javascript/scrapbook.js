@@ -87,11 +87,22 @@
             clone.find('.out').css('display', '');
         }
 
+        function textToCursor(editor, cur) {
+            var lines = editor.getValue(false);
+            var s = '';
+            for (var i = 0; i < cur.line; i++) {
+                s += lines[i];
+            }
+            s += lines[i].slice(0, cur.ch);
+            return s;
+        }
+
         function javascriptHint(editor, callback) {
             var cur = editor.getCursor();
             var token = editor.getTokenAt(cur);
-            var s =  editor.getValue();
             console.log("token:" + token);
+            console.log(cur);
+            var s =  textToCursor(editor, cur);
 
             $.ajax({
                 url: '/autocomplete',

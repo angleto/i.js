@@ -106,7 +106,9 @@ exports.autocomplete = function (req, res) {
                     var head = completions[0];
                     var tail = completions[1];
 
-                    var result = head.map(function(item) {
+                    var result = head.filter(function(item) {
+                        return item.length > 0;
+                    }).map(function(item) {
                        if (item.indexOf(tail) === 0) {
                            return item.substring(tail.length);
                        }
