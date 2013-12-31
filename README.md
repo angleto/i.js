@@ -29,10 +29,9 @@ Why?
 The following are my reasons for developing i.js:
 
 * **Language.** As the name implies, IPython Notebook speaks python. Although browser consoles and JS REPL are decent alternatives, I was looking for the IPython Notebook style of iterative computation and ability to run repetitive experiments.
-* **Matplotlib.** I want to render in d3.js, sorry [matplotlib](http://matplotlib.org). While it seems possible to get D3-based grphics in IPython right now - it is, in my opinion, so convoluted that it kills the fun.
+* **Matplotlib.** IPython Notebook is tightly integrated with [matplotlib](http://matplotlib.org), which is a great library if you are preparing an article for publication. However I want to render more interactive charts in [d3.js](http://d3js.org). While it seems possible to hack your way through to get d3.js graphics in IPython - it feel convoluted.
 * **Great model.** IPython Notebook is a unique tool that suggests a beautiful paradigm for research and experimentation. It should be made available to the widest audience possible.
-* **Fun** Last but not the least: it is fun to work on the full-stack JS applications and so many things feel just easy and right when you do them this way. 
-
+* **Fun** Last but not the least: full-stack JS applications are fun. 
 
 How it was built?
 -----------------
