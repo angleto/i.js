@@ -1,6 +1,5 @@
 (function () {
     var id = location.pathname.split('/').slice(-1)[0];
-
     var cell_id_to_code_mirror = {};
 
     function load() {
@@ -9,11 +8,9 @@
             data: {'id': id},
             type: 'get'
         }).done(function (data) {
-            console.log(data);
+            console.log("AJAX /load request executed");
 
-            console.log(data.name);
             $("#name").val(data.name);
-
             if (data.cells) {
                 var cells = data.cells;
                 for (var i = 0; i < cells.length; i++) {
@@ -22,7 +19,7 @@
             }
             appendCell();
         }).fail(function () {
-            console.log("error!");
+            console.error("AJAX /load request failed");
         });
     }
 
@@ -32,36 +29,32 @@
         var array = [];
 
         $('.cell:visible').each(function(index, cell) {
-            console.log("cell: " + cell.id);
-            console.log("cell: " + $(cell).attr('id'));
             var id = getId($(cell));
             var cell_in = cell_id_to_code_mirror[id].getValue();
             if (cell_in.length > 0) {
                 var cell_out = $(this).find('.cell-output').text();
-                console.log(cell_in + " -> " + cell_out);
                 array.push({in: cell_in, out: cell_out});
             }
         });
 
-        console.log(array);
-
         var name = $("#name").val();
-        console.log("name: " + name);
         $.ajax({
             url: '/save',
             data: {'data': {name: name, cells: array}, 'id': id},
             type: 'post'
         }).done(function () {
-            console.log("done!");
-            var status = $("#save-status");
-            status.addClass('label-success').text("File saved");
-            setTimeout(function() {status.text('');}, 1000);
+            console.log("AJAX /save request executed");
+            setStatus("File saved", 'label-success');
         }).fail(function () {
-            console.log("error!");
-            var status = $("#save-status");
-            status.addClass('label-danger').text("Save failed");
-            setTimeout(function() {status.text('');}, 1000);
+            console.error("AJAX /load request failed");
+            setStatus("Save failed", 'label-danger');
         });
+    }
+
+    function setStatus(text, css) {
+        var status = $("#save-status");
+        status.addClass(css).text(text);
+        setTimeout(function() {status.text('');}, 1000);
     }
 
     $('#save').click(function () {
@@ -100,8 +93,6 @@
         function javascriptHint(editor, callback) {
             var cur = editor.getCursor();
             var token = editor.getTokenAt(cur);
-            console.log("token:" + token);
-            console.log(cur);
             var s =  textToCursor(editor, cur);
 
             $.ajax({
@@ -109,13 +100,12 @@
                 data: {'string': s, 'id': id},
                 type: 'post'
             }).done(function (hints) {
-                console.log(hints);
-
+                console.log("AJAX /autocomplete request executed");
                 callback({list: hints,
                         from: CodeMirror.Pos(cur.line, token.end),
                         to: CodeMirror.Pos(cur.line, token.end)});
             }).fail(function () {
-                console.log("error!");
+                console.error("AJAX /autocomplete request failed");
             });
         }
 
@@ -144,21 +134,16 @@
         var textarea = $(target);
         var cell = textarea.parents('.cell');
 
-        console.log("js: " + js);
         js = preprocessJS(js);
-        console.log("preprocessed: " + js);
         $.ajax({
             url: '/repl',
             data: {'js': js, 'id': id},
             type: 'post'
         })
         .done(function (data) {
+            console.log("AJAX /repl request executed");
             cell.find('.cell-output').text(data);
             cell.find('.out').css('display', '');
-
-            var currentId = parseInt(getId(cell ));
-            console.log('currentId: ' + currentId);
-            console.log('cellId: ' + nextCellId);
 
             var next = cell.next('.cell');
             if (next.length > 0) {
@@ -169,7 +154,7 @@
             }
         })
         .fail(function () {
-            console.log("error!");
+            console.error("AJAX /repl request failed");
         });
     }
 
@@ -179,12 +164,11 @@
 
         for (var i = 0; i < lines.length; i++) {
             var line = lines[i];
-            // Filter out unwanted node REPL's special commands
             if (line === '.help' ||
                 line === '.exit' ||
                 line === '.save' ||
                 line === '.load') {
-                continue;
+                // Ignore blacklisted REPL commands
             } else {
                 preprocessedJS += line + '\n';
             }

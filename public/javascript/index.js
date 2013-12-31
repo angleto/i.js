@@ -29,11 +29,11 @@
                         data: {'id': dataId},
                         type: 'post'
                     }).done(function () {
-                            console.log("done!");
-                            target.parents(".row")[0].remove();
-                        }).fail(function () {
-                            console.log("error!");
-                        });
+                        console.log("AJAX /delete request executed");
+                        target.parents(".row")[0].remove();
+                    }).fail(function () {
+                        console.error("AJAX /delete request FAILED");
+                    });
                 }
             }
         }
