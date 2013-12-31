@@ -16,8 +16,8 @@ As of now i.js has the following features:
 * **Syntax highlight**
 * **Code auto-completion**
 * **Basic management** of i.js documents (from this point on I will call them 'scrapbooks'): create, delete, rename.
-* **REPL/server decoupling.** Each scrapbook has it's own JavaScript REPL attached. That means that when you use different scrapbooks they do not interfere. It also means that scrapbook evaluation environment ins separated from the actual node.js server, so no matter what happens in a REPL session the i.js core server will continue to be up and running.
-* **Full execution flow control.** A scrapbook is essentially a collections of small JavaScript code snippets ('cells') that can be evaluated and edited independently. As a user you have the full control of which cells should be executed and in what order. You can also edit and re-evaluate cells as you see fit, that allows one to run iterative experiments with a super-short feedback cycle.
+* **REPL/server decoupling.** Each scrapbook has it's own JavaScript REPL attached. That means that when you use different scrapbooks they do not interfere. It also means that scrapbook evaluation environment is separated from the actual node.js server, so no matter what happens in a REPL session the core i.js server should be up and running.
+* **Full execution flow control.** A scrapbook is essentially a collections of small JavaScript code snippets ('cells') that can be evaluated and edited independently. You have the full control of which cells should be executed and in what order. You can also edit and re-evaluate cells as you see fit, that allows one to run iterative experiments with a super-short feedback cycle.
 
 How about a screenshot?
 -----------------------
@@ -30,8 +30,9 @@ Why?
 The following are my reasons for developing i.js:
 
 * **Language.** As the name implies, IPython Notebook is heavily python-focused. I often need to run JS experiments. Although browser consoles and JS REPL are decent alternatives, I was looking for the IPython Notebook style of iterative computation and ability to run repetitive experiments.
+* **Great model.** IPython Notebook is a unique tool that suggests an amazing paradigm for research and experimentation. It should be made available to the widest audience possible.
 * **Matplotlib.** I want to have d3.js. While it seems possible to get D3-based grphics in IPython right now - it is, in my opinion, so convoluted that it kills the fun.
-* **Great model.** IPython Notebook is a unique tool that represents an amazing new paradigm for research and experimentation. It should be made available to the widest audience possible.
+
 
 How it was built?
 -----------------
@@ -40,9 +41,9 @@ i.js is built on top of:
 
 1. [node.js](http://nodejs.org) + [express](http://expressjs.com/api.html) + [jade](http://jade-lang.com)
 2. [Bootstrap](http://getbootstrap.com) as you can immediately see from the screenshot above
-2. [REPL](http://nodejs.org/api/repl.html) for evaluating scrapbooks and getting code auto-completion hints
-3. [JQuery](http://jquery.com) for browser scripting
-3. [CodeMirror](http://codemirror.net) for code syntax-highlight and auto-completion UI
+3. [REPL](http://nodejs.org/api/repl.html) for evaluating scrapbooks and getting code auto-completion hints
+4. [CodeMirror](http://codemirror.net) for code syntax-highlight and auto-completion UI
+5. [JQuery](http://jquery.com) for browser scripting
 
 Installation
 -------------
@@ -57,11 +58,16 @@ Installation
 Usage
 -----
 
-* Shortcuts
-  * Use Shift+Enter to evaluate the current cell
-  * Use Ctrl+S (Meta+S) to save the current i.js scrapbook
-  * Use Ctrl+Space to auto-complete the code.
-* Special commands
-  * .break force complete current expression
-  * .clear clear the context
-  * more details on [REPL doc page](http://nodejs.org/api/repl.html#repl_repl_features)
+**Shortcuts**
+
+* Use _Shift+Enter_ to evaluate the current cell
+* Use _Ctrl+Space_ to auto-complete the code
+* Use _Ctrl+S_ (_Meta+S_) to save the current i.js scrapbook
+
+**Special commands**
+
+Use any of the following within i.js cells:
+
+* _.break_ force complete current expression
+* _.clear_ clear the context
+* more details on [REPL doc page](http://nodejs.org/api/repl.html#repl_repl_features)
