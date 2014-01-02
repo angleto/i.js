@@ -80,7 +80,7 @@ var text = function(d) { return d; };
 var svg = chart.selectAll("div").data(data).enter().append("div").style("width", width).text(text);
 ```
 
-* Your HTML chart is generated on server now you just want to insert it into your scrapbook
+* Your chart is generated on server, and now all you need is just to render the result in your scrapbook, use the special character _%_ for this (it should be the first character in the cell):
 
 ```javascript
 %container.node().parentNode.innerHTML
