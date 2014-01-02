@@ -130,11 +130,24 @@
         code_mirror.focus();
     }
 
+    var inlineMarker = '%';
+
     function evalCell(target, js) {
         var textarea = $(target);
         var cell = textarea.parents('.cell');
 
         js = preprocessJS(js);
+
+        if (js.length == 0) {
+            return
+        }
+
+        var inline = false;
+        if (js.indexOf(inlineMarker) === 0) {
+            inline = true;
+            js = js.slice(1);
+        }
+
         $.ajax({
             url: '/repl',
             data: {'js': js, 'id': id},
@@ -142,7 +155,16 @@
         })
         .done(function (data) {
             console.log("AJAX /repl request executed");
-            cell.find('.cell-output').text(data);
+            if (inline) {
+                var m = data.match(/^'(.*)'$/);
+                if (m) {
+                    data = m[1];
+                }
+                cell.find('.cell-output').html(data);
+            } else {
+                cell.find('.cell-output').append("pre").text(data);
+            }
+
             cell.find('.out').css('display', '');
 
             var next = cell.next('.cell');

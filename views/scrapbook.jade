@@ -2,12 +2,14 @@ extends layout
 
 block head
     link(rel='stylesheet', href='/stylesheets/scrapbook.css')
+    script(src='/d3/d3.js')
     // codemirror dependencies:
     script(src='/codemirror/lib/codemirror.js')
     script(src='/codemirror/mode/javascript/javascript.js')
     script(src='/codemirror/addon/hint/show-hint.js')
     link(rel='stylesheet', href='/codemirror/lib/codemirror.css')
     link(rel='stylesheet', href='/codemirror/addon/hint/show-hint.css')
+    // codemirror customization
     link(rel='stylesheet', href='/stylesheets/codemirror_custom.css')
 
 block body
