@@ -40,12 +40,27 @@ As always you do all your data processing on the server. D3 will be executed on 
 
 Here I will use an adopted Mike Bostock's [example](http://bost.ocks.org/mike/bar/):
 
-* First of all include d3 library ``var d3 = require('d3');``
-* Now get some data ``var data = [4, 8, 15, 16, 23, 42];``
-* Next you will need to create an empty container for your chart: ``var container = d3.select('body').html('').append('div');``
+* First of all include d3 library 
+
+```javascript
+var d3 = require('d3');
+```
+
+* Now get some data 
+
+```javascript
+var data = [4, 8, 15, 16, 23, 42];
+```
+
+* Next you will need to create an empty container for your chart: 
+
+```javascript
+var container = d3.select('body').html('').append('div');
+```
+
 * From that point on you can do your normal D3 coding, for example you can style your container the way you want:
 
-```
+```javascript
 container.append("style").text(
   ".chart div {\
   	background-color: steelblue; \
@@ -58,7 +73,7 @@ container.append("style").text(
 
 * Now you can render some bars:
 
-```
+```javascript
 var chart = container.append("div").attr("class", "chart");
 var width = function(d) { return d * 10 + "px"; };
 var text = function(d) { return d; };
@@ -67,7 +82,9 @@ var svg = chart.selectAll("div").data(data).enter().append("div").style("width",
 
 * Your HTML chart is generated on server now you just want to insert it into your scrapbook
 
-``%container.node().parentNode.innerHTML``
+```javascript
+%container.node().parentNode.innerHTML
+```
 
 See prepackaged _d3_ scrapbook for a working example.
 
