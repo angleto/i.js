@@ -6,16 +6,16 @@
             "out": "'3.3.13'"
         },
         {
-            "in": "var data = [4, 8, 15, 16, 23, 42];",
+            "in": "var data = Array.apply(null, new Array(6));\ndata = data.map(function() { return Math.round(Math.random() * 40 + 10); });\ndata = data.sort(function(a,b) {return a - b;});\ndata",
+            "out": "[ 20, 22, 24, 27, 32, 33 ]"
+        },
+        {
+            "in": "var container = d3.select('body').html('').append('div');\ncontainer.append(\"style\").text(\n\".chart div {\\\n\tbackground-color: steelblue; \\\n\ttext-align: right; \\\n\tpadding: 3px; \\\n\tmargin: 1px; \\\n\tcolor: white; \\\n}\");\n\nvar chart = container.append(\"div\").attr(\"class\", \"chart\");\n\nvar width = function(d) { return d * 10 + \"px\"; };\nvar text = function(d) { return d; };\nvar svg = chart.selectAll(\"div\").data(data).enter().append(\"div\").style(\"width\", width).text(text);",
             "out": "undefined"
         },
         {
-            "in": "var container = d3.select('body').html('').append('div');\ncontainer.append(\"style\").text(\n\".chart div {\\\n\tbackground-color: steelblue; \\\n\ttext-align: right; \\\n\tpadding: 3px; \\\n\tmargin: 1px; \\\n\tcolor: white; \\\n}\");\n\nvar chart = container.append(\"div\").attr(\"class\", \"chart\");\n\nvar width = function(d) { return d * 10 + \"px\"; };\nvar text = function(d) { return d; };\nvar svg = chart.selectAll(\"div\").data(data).enter().append(\"div\");\nsvg.style(\"width\", width).text(text);\n\n// Raw HTML from d3 looks like this:\ncontainer.node().parentNode.innerHTML",
-            "out": "'<div><style>.chart div {background-color: steelblue; text-align: right; padding: 3px; margin: 1px; color: white; }</style><div class=\"chart\"><div style=\"width: 40px;\">4</div><div style=\"width: 80px;\">8</div><div style=\"width: 150px;\">15</div><div style=\"width: 160px;\">16</div><div style=\"width: 230px;\">23</div><div style=\"width: 420px;\">42</div></div></div>'"
-        },
-        {
             "in": "%\n// But we do not want to see it, we want to render it instead, \n// so use the magic '%' marker as the first symbol of the cell\ncontainer.node().parentNode.innerHTML",
-            "out": "<div><style>.chart div {background-color: steelblue; text-align: right; padding: 3px; margin: 1px; color: white; }</style><div class=\"chart\"><div style=\"width: 40px;\">4</div><div style=\"width: 80px;\">8</div><div style=\"width: 150px;\">15</div><div style=\"width: 160px;\">16</div><div style=\"width: 230px;\">23</div><div style=\"width: 420px;\">42</div></div></div>"
+            "out": "<div><style>.chart div {background-color: steelblue; text-align: right; padding: 3px; margin: 1px; color: white; }</style><div class=\"chart\"><div style=\"width: 200px;\">20</div><div style=\"width: 220px;\">22</div><div style=\"width: 240px;\">24</div><div style=\"width: 270px;\">27</div><div style=\"width: 320px;\">32</div><div style=\"width: 330px;\">33</div></div></div>"
         }
     ]
 }
