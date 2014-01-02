@@ -14,7 +14,7 @@
             "out": "[ 4, 8, 15, 16, 23, 42 ]"
         },
         {
-            "in": "var container = d3.select('body').append('div');\nvar css = \".chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}\";\ncontainer.append(\"style\").text(css);\n\nvar chart = container.append(\"div\");\nchart.attr(\"class\", \"chart\");\n\nvar svg = d3.select(\".chart\").selectAll(\"div\").data(data).enter().append(\"div\").style(\"width\", function(d) { return d * 10 + \"px\"; }).text(function(d) { return d; });",
+            "in": "var container = d3.select('body').append('div');\nvar css = \".chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}\";\ncontainer.append(\"style\").text(css);\n\nvar chart = container.append(\"div\");\nchart.attr(\"class\", \"chart\");\n\nvar svg = chart.selectAll(\"div\").data(data).enter().append(\"div\").style(\"width\", function(d) { return d * 10 + \"px\"; }).text(function(d) { return d; });",
             "out": "undefined"
         },
         {
@@ -24,10 +24,6 @@
         {
             "in": "%\n// But we do not want to see it, we want to render it instead, \n// so use the magic '%' marker as the first symbol of the cell\ncontainer.node().parentNode.innerHTML",
             "out": "<div><style>.chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}</style><div class=\"chart\"><div style=\"width: 40px;\">4</div><div style=\"width: 80px;\">8</div><div style=\"width: 150px;\">15</div><div style=\"width: 160px;\">16</div><div style=\"width: 230px;\">23</div><div style=\"width: 420px;\">42</div></div></div>"
-        },
-        {
-            "in": "s",
-            "out": ""
         }
     ]
 }
