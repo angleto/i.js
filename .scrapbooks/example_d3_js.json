@@ -18,12 +18,12 @@
             "out": "undefined"
         },
         {
-            "in": "%container.node().parentNode.innerHTML",
-            "out": ".chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}4815162342.chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}.chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}"
+            "in": "// Raw HTML from d3 looks like this:\ncontainer.node().parentNode.innerHTML ",
+            "out": "'<div><style>.chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}</style><div class=\"chart\"><div style=\"width: 40px;\">4</div><div style=\"width: 80px;\">8</div><div style=\"width: 150px;\">15</div><div style=\"width: 160px;\">16</div><div style=\"width: 230px;\">23</div><div style=\"width: 420px;\">42</div></div></div><div><style>.chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}</style><div class=\"chart\"></div></div><div><style>.chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}</style><div class=\"chart\"></div></div><div><style>.chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}</style><div class=\"chart\"></div></div>'"
         },
         {
-            "in": "container.node().parentNode.innerHTML",
-            "out": "'<div><style>.chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}</style><div class=\"chart\"><div style=\"width: 40px;\">4</div><div style=\"width: 80px;\">8</div><div style=\"width: 150px;\">15</div><div style=\"width: 160px;\">16</div><div style=\"width: 230px;\">23</div><div style=\"width: 420px;\">42</div></div><style>.chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}</style><div class=\"chart\"></div></div><div><style>.chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}</style><div class=\"chart\"></div></div><div><style>.chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}</style><div class=\"chart\"></div></div>'"
+            "in": "%\n// But we do not want to see it, we want to render it instead, \n// so use the magic '%' marker as the first symbol of the cell\ncontainer.node().parentNode.innerHTML",
+            "out": ".chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}4815162342.chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}.chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}.chart div {background-color: steelblue; text-align: right;padding: 3px;margin: 1px;color: white;}"
         }
     ]
 }
