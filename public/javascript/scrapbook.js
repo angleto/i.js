@@ -1,6 +1,7 @@
 (function () {
     var id = location.pathname.split('/').slice(-1)[0];
     var cell_id_to_code_mirror = {};
+    var inlineMarker = '%';
 
     function load() {
         $.ajax({
@@ -32,7 +33,11 @@
             var id = getId($(cell));
             var cell_in = cell_id_to_code_mirror[id].getValue();
             if (cell_in.length > 0) {
-                var cell_out = $(this).find('.cell-output').text();
+                if (isInlineOut(cell_in)) {
+                    var cell_out = $(this).find('.cell-output').html();
+                } else {
+                    var cell_out = $(this).find('.cell-output').text();
+                }
                 array.push({in: cell_in, out: cell_out});
             }
         });
@@ -76,8 +81,7 @@
             textarea.text(cell_in);
         }
         if (cell_out) {
-            clone.find('.cell-output').text(cell_out);
-            clone.find('.out').css('display', '');
+            setCellOut(clone, cell_out, isInlineOut(cell_in));
         }
 
         function textToCursor(editor, cur) {
@@ -130,8 +134,6 @@
         code_mirror.focus();
     }
 
-    var inlineMarker = '%';
-
     function evalCell(target, js) {
         var textarea = $(target);
         var cell = textarea.parents('.cell');
@@ -143,7 +145,7 @@
         }
 
         var inline = false;
-        if (js.indexOf(inlineMarker) === 0) {
+        if (isInlineOut(js)) {
             inline = true;
             js = js.slice(1);
         }
@@ -155,17 +157,7 @@
         })
         .done(function (data) {
             console.log("AJAX /repl request executed");
-            if (inline) {
-                var m = data.match(/^'(.*)'$/);
-                if (m) {
-                    data = m[1];
-                }
-                cell.find('.cell-output').html(data);
-            } else {
-                cell.find('.cell-output').append("pre").text(data);
-            }
-
-            cell.find('.out').css('display', '');
+            setCellOut(cell, data, inline);
 
             var next = cell.next('.cell');
             if (next.length > 0) {
@@ -178,6 +170,24 @@
         .fail(function () {
             console.error("AJAX /repl request failed");
         });
+    }
+
+    function setCellOut(cell, data, inline) {
+        if (inline) {
+            var m = data.match(/^'(.*)'$/);
+            if (m) {
+                data = m[1];
+            }
+            cell.find('.cell-output').html(data);
+        } else {
+            cell.find('.cell-output').append("pre").text(data);
+        }
+
+        cell.find('.out').css('display', '');
+    }
+
+    function isInlineOut(cell_in) {
+        return cell_in.indexOf(inlineMarker) === 0;
     }
 
     function preprocessJS(js) {
