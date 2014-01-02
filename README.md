@@ -21,8 +21,6 @@ As of now i.js has the following features:
 How about a screenshot?
 -----------------------
 
-Sure:
-
 ![i.js screenshot](http://i.imgur.com/UrJIY2M.png "i.js screenshot")
 
 Why?
@@ -34,6 +32,44 @@ The following are my reasons for developing i.js:
 * **Matplotlib.** IPython Notebook is tightly integrated with [matplotlib](http://matplotlib.org), which is a great library if you are preparing an article for publication. However I want to render more interactive charts in [d3.js](http://d3js.org). While it seems possible to hack your way through to get d3.js graphics in IPython - it feel convoluted.
 * **Great model.** IPython Notebook is a unique tool that suggests a beautiful paradigm for research and experimentation. It should be made available to the widest audience possible.
 * **Fun** Last but not the least: full-stack JS applications are fun. 
+
+How can I generate a D3 chart?
+------------------------------
+
+As always you do all your data processing on the server. D3 will be executed on the server as well. Once this is done you will receive a renderable SVG on the client and i.js will render it for you.
+
+Here I will use an adopted Mike Bostock's [example](http://bost.ocks.org/mike/bar/):
+
+* First of all include d3 library ``var d3 = require('d3');``
+* Now get some data ``var data = [4, 8, 15, 16, 23, 42];``
+* Next you will need to create an empty container for your chart: ``var container = d3.select('body').html('').append('div');``
+* From that point on you can do your normal D3 coding, for example you can style your container the way you want:
+
+```
+container.append("style").text(
+  ".chart div {\
+  	background-color: steelblue; \
+  	text-align: right; \
+  	padding: 3px; \
+  	margin: 1px; \
+  	color: white; \
+  }");
+```
+
+* Now you can render some bars:
+
+```
+var chart = container.append("div").attr("class", "chart");
+var width = function(d) { return d * 10 + "px"; };
+var text = function(d) { return d; };
+var svg = chart.selectAll("div").data(data).enter().append("div").style("width", width).text(text);
+```
+
+* Your HTML chart is generated on server now you just want to insert it into your scrapbook
+
+``%container.node().parentNode.innerHTML``
+
+See prepackaged _d3_ scrapbook for a working example.
 
 How it was built?
 -----------------
@@ -69,6 +105,7 @@ Usage
 
 Use any of the following within i.js cells:
 
+* _%_ put % as the first character in the cell to let i.js know that the result of cell evaluation should be rendered as HTML.
 * _.break_ force complete current expression
 * _.clear_ clear the context
 * more details on [REPL doc page](http://nodejs.org/api/repl.html#repl_repl_features)
