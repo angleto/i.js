@@ -1,5 +1,5 @@
 {
-    "name": "d3",
+    "name": "d3: basic example",
     "cells": [
         {
             "in": "var d3 = require('d3');\nd3.version",

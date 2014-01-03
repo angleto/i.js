@@ -21,7 +21,7 @@ As of now i.js has the following features:
 How about a screenshot?
 -----------------------
 
-![i.js screenshot](http://i.imgur.com/UrJIY2M.png "i.js screenshot")
+![i.js screenshot](http://i.imgur.com/KC049mL.png "i.js screenshot")
 
 Why?
 ----
