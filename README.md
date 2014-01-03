@@ -36,7 +36,7 @@ The following are my reasons for developing i.js:
 How can I generate a D3 chart?
 ------------------------------
 
-As always you do all your data processing on the server. D3 will be executed on the server as well. Once this is done you will receive a renderable SVG on the client and i.js will render it for you.
+As always you do all your data processing on the server. D3 will be executed on the server as well. Once this is done you will receive an SVG on the client and i.js will render it for you.
 
 Here I will use an adopted Mike Bostock's [example](http://bost.ocks.org/mike/bar/):
 
@@ -86,7 +86,7 @@ var svg = chart.selectAll("div").data(data).enter().append("div").style("width",
 %container.node().parentNode.innerHTML
 ```
 
-See prepackaged _d3_ scrapbook for a working example.
+See prepackaged _d3_ example scrapbooks for more details.
 
 How it was built?
 -----------------
@@ -98,6 +98,7 @@ i.js is built on top of:
 3. [REPL](http://nodejs.org/api/repl.html) for evaluating scrapbooks and getting code auto-completion hints
 4. [CodeMirror](http://codemirror.net) for code syntax-highlight and auto-completion UI
 5. [JQuery](http://jquery.com) for browser scripting
+6. [d3.js](http://d3js.org) for charts rendering.
 
 Installation
 -------------
