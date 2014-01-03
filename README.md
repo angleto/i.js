@@ -21,7 +21,7 @@ As of now i.js has the following features:
 How about a screenshot?
 -----------------------
 
-![i.js screenshot](http://i.imgur.com/jkadPJi.png?1 "i.js screenshot")
+![i.js screenshot](http://i.imgur.com/KC049mL.png "i.js screenshot")
 
 Why?
 ----
@@ -33,6 +33,61 @@ The following are my reasons for developing i.js:
 * **Great model.** IPython Notebook is a unique tool that suggests a beautiful paradigm for research and experimentation. It should be made available to the widest audience possible.
 * **Fun** Last but not the least: full-stack JS applications are fun. 
 
+How can I generate a D3 chart?
+------------------------------
+
+As always you do all your data processing on the server. D3 will be executed on the server as well. Once this is done you will receive an SVG on the client and i.js will render it for you.
+
+Here I will use an adopted Mike Bostock's [example](http://bost.ocks.org/mike/bar/):
+
+* First of all include d3 library 
+
+```javascript
+var d3 = require('d3');
+```
+
+* Now get some data 
+
+```javascript
+var data = [4, 8, 15, 16, 23, 42];
+```
+
+* Next you will need to create an empty container for your chart: 
+
+```javascript
+var container = d3.select('body').html('').append('div');
+```
+
+* From that point on you can do your normal D3 coding, for example you can style your container the way you want:
+
+```javascript
+container.append("style").text(
+  ".chart div {\
+  	background-color: steelblue; \
+  	text-align: right; \
+  	padding: 3px; \
+  	margin: 1px; \
+  	color: white; \
+  }");
+```
+
+* Now you can render some bars:
+
+```javascript
+var chart = container.append("div").attr("class", "chart");
+var width = function(d) { return d * 10 + "px"; };
+var text = function(d) { return d; };
+var svg = chart.selectAll("div").data(data).enter().append("div").style("width", width).text(text);
+```
+
+* Your chart is generated on server, and now all you need is just to render the result in your scrapbook, use the special character _%_ for this (it should be the first character in the cell):
+
+```javascript
+%container.node().parentNode.innerHTML
+```
+
+See prepackaged _d3_ example scrapbooks for more details.
+
 How it was built?
 -----------------
 
@@ -43,6 +98,7 @@ i.js is built on top of:
 3. [REPL](http://nodejs.org/api/repl.html) for evaluating scrapbooks and getting code auto-completion hints
 4. [CodeMirror](http://codemirror.net) for code syntax-highlight and auto-completion UI
 5. [JQuery](http://jquery.com) for browser scripting
+6. [d3.js](http://d3js.org) for charts rendering.
 
 Installation
 -------------
@@ -67,6 +123,7 @@ Usage
 
 Use any of the following within i.js cells:
 
+* _%_ put % as the first character in the cell to let i.js know that the result of cell evaluation should be rendered as HTML.
 * _.break_ force complete current expression
 * _.clear_ clear the context
 * more details on [REPL doc page](http://nodejs.org/api/repl.html#repl_repl_features)

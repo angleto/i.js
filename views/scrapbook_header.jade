@@ -14,7 +14,8 @@ block controls
                     b.caret
                     div.dropdown-menu
                         h4="Welcome to i.js"
-                        a(href="#")="Shortcuts"
+
+                        span.dropdown-header="Shortcuts"
                         dl
                             dt
                                 a(href="#")="Shift-Enter"
@@ -29,8 +30,13 @@ block controls
                             dd
                                 span="auto complete"
                         br
-                        a(href="http://nodejs.org/api/repl.html")="Special commands"
+
+                        span.dropdown-header="Special commands"
                         dl
+                            dt
+                                a(href="#")="%"
+                            dd
+                                span="Put % as the first character in the cell to let i.js know that the result of cell evaluation should be rendered as HTML."
                             dt
                                 a(href="#")=".break"
                             dd

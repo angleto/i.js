@@ -2,7 +2,7 @@ var logger = require('log4js').getLogger("repl_manager"),
     net = require('net'),
     repl = require("repl");
 
-var prompt = ">";
+var prompt = "@\n";
 
 // TODO support error in the callback
 var createServer = function (port, callback) {
@@ -62,16 +62,17 @@ exports.eval = function (req, res) {
 
         getServer(id, function(server_connection) {
             var socket = server_connection.socket;
-            socket.once('data', function (b) {
+            socket.once('data', function (data) {
+                logger.debug("result: " + data);
                 var result = 'undefined';
-                var out = b.toString().split(prompt);
+                var out = data.toString().split(prompt);
                 for (var i = out.length - 1; i >= 0; i--) {
                     result = out[i].trim().replace(/^(\.\.+\s+)+/, "");
                     if (result.length > 0) {
                         break;
                     }
                 }
-                logger.debug('result: ' + result);
+                logger.debug('send to client: ' + result);
                 res.send(result);
             });
             socket.write(js.trim() + '\n' + '.break\n');
