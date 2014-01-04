@@ -109,13 +109,8 @@ exports.autocomplete = function (req, res) {
 
                     var result = head.filter(function(item) {
                         return item.length > 0;
-                    }).map(function(item) {
-                       if (item.indexOf(tail) === 0) {
-                           return item.substring(tail.length);
-                       }
-                       return item;
                     });
-                    res.send(result);
+                    res.send([tail, result]);
                 } else {
                     res.send(completions);
                 }
