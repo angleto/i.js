@@ -1,7 +1,8 @@
 var fs = require('fs'),
+    path = require('path'),
     logger = require('log4js').getLogger("config");
 
-var workdir = ".scrapbooks";
+var workdir = path.resolve(__dirname, "..", ".scrapbooks");
 
 exports.title = 'i.js';
 exports.workdir = workdir;
