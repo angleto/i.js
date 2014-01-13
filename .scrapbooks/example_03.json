@@ -7,7 +7,7 @@
         },
         {
             "in": "if (typeof Object.prototype.method === 'undefined') {\n\tObject.prototype.method = function (name, f) {\n\t\tif (!this.prototype[name]) {\n\t\t\tthis.prototype[name] = f;\t\n\t\t}\n\t\treturn this;\n\t}\n}",
-            "out": "[Function]"
+            "out": "undefined"
         },
         {
             "in": "Number.method('integer', function() {\n\treturn Math[this < 0 ? 'ceil' : 'floor'](this);\n});",

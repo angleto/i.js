@@ -139,8 +139,6 @@
         var textarea = $(target);
         var cell = textarea.parents('.cell');
 
-        js = preprocessJS(js);
-
         if (js.length == 0) {
             return
         }
@@ -189,24 +187,6 @@
 
     function isInlineOut(cell_in) {
         return cell_in.indexOf(inlineMarker) === 0;
-    }
-
-    function preprocessJS(js) {
-        var lines = js.split('\n');
-        var preprocessedJS = '';
-
-        for (var i = 0; i < lines.length; i++) {
-            var line = lines[i];
-            if (line === '.help' ||
-                line === '.exit' ||
-                line === '.save' ||
-                line === '.load') {
-                // Ignore blacklisted REPL commands
-            } else {
-                preprocessedJS += line + '\n';
-            }
-        }
-        return preprocessedJS;
     }
 
     function getId(cell) {

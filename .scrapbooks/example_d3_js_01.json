@@ -6,16 +6,16 @@
             "out": "'3.3.13'"
         },
         {
-            "in": "var data = Array.apply(null, new Array(6));\ndata = data.map(function() { return Math.round(Math.random() * 40 + 10); });\ndata = data.sort(function(a,b) {return a - b;});\ndata",
-            "out": "[ 20, 22, 24, 27, 32, 33 ]"
+            "in": "var data = Array.apply(null, new Array(6))\n\t.map(function() { return Math.round(Math.random() * 40 + 10); })\n\t.sort(function(a,b) {return a - b;});\ndata",
+            "out": "[ 18, 19, 27, 30, 40, 50 ]"
         },
         {
-            "in": "var container = d3.select('body').html('').append('div');\ncontainer.append(\"style\").text(\n\".chart div {\\\n\tbackground-color: steelblue; \\\n\ttext-align: right; \\\n\tpadding: 3px; \\\n\tmargin: 1px; \\\n\tcolor: white; \\\n}\");\n\nvar chart = container.append(\"div\").attr(\"class\", \"chart\");\n\nvar width = function(d) { return d * 10 + \"px\"; };\nvar text = function(d) { return d; };\nvar svg = chart.selectAll(\"div\").data(data).enter().append(\"div\").style(\"width\", width).text(text);",
+            "in": "var container = d3.select('body').html('').append('div');\ncontainer.append(\"style\")\n\t.text(\n\".chart div {\\\n\tbackground-color: steelblue; \\\n\ttext-align: right; \\\n\tpadding: 3px; \\\n\tmargin: 1px; \\\n\tcolor: white; \\\n}\");\n\nvar chart = container.append(\"div\").attr(\"class\", \"chart\");\nvar svg = chart.selectAll(\"div\")\n\t.data(data)\n\t.enter()\n\t.append(\"div\")\n\t.style(\"width\", function(d) { return d * 10 + \"px\"; })\n\t.text(function(d) { return d; });",
             "out": "undefined"
         },
         {
-            "in": "%\n// But we do not want to see it, we want to render it instead, \n// so use the magic '%' marker as the first symbol of the cell\ncontainer.node().parentNode.innerHTML",
-            "out": "<div><style>.chart div {background-color: steelblue; text-align: right; padding: 3px; margin: 1px; color: white; }</style><div class=\"chart\"><div style=\"width: 200px;\">20</div><div style=\"width: 220px;\">22</div><div style=\"width: 240px;\">24</div><div style=\"width: 270px;\">27</div><div style=\"width: 320px;\">32</div><div style=\"width: 330px;\">33</div></div></div>"
+            "in": "%\n// We do not want to see svg html code, we want to render it instead, \n// so use the magic '%' marker as the first symbol of the cell\ncontainer.node().parentNode.innerHTML",
+            "out": "<div><style>.chart div {background-color: steelblue; text-align: right; padding: 3px; margin: 1px; color: white; }</style><div class=\"chart\"><div style=\"width: 180px;\">18</div><div style=\"width: 190px;\">19</div><div style=\"width: 270px;\">27</div><div style=\"width: 300px;\">30</div><div style=\"width: 400px;\">40</div><div style=\"width: 500px;\">50</div></div></div>"
         }
     ]
 }
