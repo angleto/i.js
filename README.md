@@ -121,10 +121,13 @@ Usage
 
 **Special commands and built-in definitions **
 
-Use any of the following within i.js cells:
+Built-in variables
 
 * __base_dir - is a pre-defined variable pointing to i.js base directory.
 * __modules_dir - is a pre-defined variable pointing to directory with i.js module dependencies..
+
+Use any of the following within i.js cells:
+
 * _%_ put % as the first character in the cell to let i.js know that the result of cell evaluation should be rendered as HTML.
 * _.break_ force complete current expression.
 * _.clear_ clear the context.
