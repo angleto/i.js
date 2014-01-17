@@ -43,7 +43,7 @@ Here I will use an adopted Mike Bostock's [example](http://bost.ocks.org/mike/ba
 * First of all include d3 library 
 
 ```javascript
-var d3 = require('d3');
+var d3 = require(__modules_dir + 'd3');
 ```
 
 * Now get some data 
