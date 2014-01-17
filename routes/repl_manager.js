@@ -41,10 +41,9 @@ var createServer = function (port, callback) {
         ServerConnection.prototype.__proto__ = events.EventEmitter.prototype;
 
         var server_connection = new ServerConnection(clientSocket, repl_server);
-        //TODO add help and README
         server_connection.eval(
             "var __base_dir = '" + config.base_dir + "';\n" +
-                "var __modules_dir = '" + config.modules_dir + "';"
+            "var __modules_dir = '" + config.modules_dir + "';"
         );
 
         callback(server_connection);
