@@ -29,7 +29,7 @@ exports.save = function (req, res) {
     if (id && data) {
         logger.info("id: " + id);
         logger.debug("data: " + data);
-        var file = path.join(config.workdir, id + ".json");
+        var file = path.join(config.scrap_dir, id + ".json");
         fs.writeFile(file, JSON.stringify(data, null, 4), function (err) {
             if (err) {
                 logger.error(err);
@@ -53,7 +53,7 @@ exports.delete = function (req, res) {
 
     if (id) {
         logger.info("id: " + id);
-        var file = path.join(config.workdir, id + ".json");
+        var file = path.join(config.scrap_dir, id + ".json");
         fs.unlink(file, function (err) {
             if (err) {
                 logger.error(err);
@@ -76,7 +76,7 @@ exports.load = function (req, res) {
     var id = req.query.id;
     if (id) {
         logger.info("id: " + id);
-        var file = path.join(config.workdir, id + ".json");
+        var file = path.join(config.scrap_dir, id + ".json");
         logger.info("file: " + file);
         fs.readFile(file, function (err, data) {
             if (err) {

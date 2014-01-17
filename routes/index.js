@@ -6,7 +6,7 @@ var fs = require('fs'),
 exports.index = function (req, res) {
     logger.info("index()");
 
-    fs.readdir(config.workdir, function (err, files) {
+    fs.readdir(config.scrap_dir, function (err, files) {
         if (err) {
             logger.error(err);
             throw err;
@@ -46,7 +46,7 @@ exports.index = function (req, res) {
                     }
                 }
             }(id);
-            fs.readFile(path.join(config.workdir, file), scanFile);
+            fs.readFile(path.join(config.scrap_dir, file), scanFile);
         }
     });
 };

@@ -1,4 +1,5 @@
-var logger = require('log4js').getLogger("repl_manager"),
+var config = require('./config'),
+    logger = require('log4js').getLogger("repl_manager"),
     net = require('net'),
     repl = require("repl");
 
@@ -16,13 +17,24 @@ var createServer = function (port, callback) {
             prompt: prompt,
             input: server_socket,
             output: server_socket
-        });
-
-        repl_server.on('exit', function () {
+        })
+        .on('exit', function () {
             server_socket.end();
         });
 
-        callback({socket: client_socket, server: repl_server})
+        var server_connection = {
+            socket: client_socket,
+            server: repl_server,
+            eval: function(js) {
+                logger.debug("server_connection.eval(" + js + ")");
+                this.socket.write(js.trim() + '\n' + '.break\n');
+            }
+        };
+        //TODO add help and README
+        server_connection.eval("var __base_dir = '" + config.base_dir + "';");
+        server_connection.eval("var __modules_dir = '" + config.modules_dir + "';");
+
+        callback(server_connection);
     }).listen(port);
 
     client_socket = net.connect(port);
@@ -76,8 +88,8 @@ exports.eval = function (req, res) {
                 }
                 logger.debug('send to client: ' + result);
                 res.send(result);
-            })
-            .write(js.trim() + '\n' + '.break\n');
+            });
+            server_connection.eval(js);
         });
     }
 };
