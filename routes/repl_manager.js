@@ -1,31 +1,55 @@
-var logger = require('log4js').getLogger("repl_manager"),
+var config = require('./config'),
+    events = require('events'),
+    logger = require('log4js').getLogger("repl_manager"),
     net = require('net'),
     repl = require("repl");
 
 var prompt = "@\n";
-var replCommandsWhitelist = [".break", ".clear"]
+var replCommandsWhitelist = [".break", ".clear"];
 
 var createServer = function (port, callback) {
     logger.info("createServer()");
 
-    var client_socket;
-    net.createServer(function (server_socket) {
+    var clientSocket;
+    net.createServer(function (serverSocket) {
         logger.info("repl server started");
 
         var repl_server = repl.start({
             prompt: prompt,
-            input: server_socket,
-            output: server_socket
+            input: serverSocket,
+            output: serverSocket
+        })
+        .on('exit', function () {
+            serverSocket.end();
         });
 
-        repl_server.on('exit', function () {
-            server_socket.end();
-        });
+        function ServerConnection(clientSocket, replServer) {
+            events.EventEmitter.call(this);
+            this.server = replServer;
 
-        callback({socket: client_socket, server: repl_server})
+            this.eval = function (js, callback) {
+                logger.debug("server_connection.eval(" + js + ")");
+                clientSocket.once('data', function (data) {
+                    if (callback) {
+                        callback(data);
+                    }
+                })
+                .write(js.trim() + '\n' + '.break\n');
+            };
+        }
+
+        ServerConnection.prototype.__proto__ = events.EventEmitter.prototype;
+
+        var server_connection = new ServerConnection(clientSocket, repl_server);
+        server_connection.eval(
+            "var __base_dir = '" + config.base_dir + "';\n" +
+            "var __modules_dir = '" + config.modules_dir + "';"
+        );
+
+        callback(server_connection);
     }).listen(port);
 
-    client_socket = net.connect(port);
+    clientSocket = net.connect(port);
 };
 
 var getServer = function () {
@@ -63,8 +87,7 @@ exports.eval = function (req, res) {
         logger.debug("preprocessed js: " + js);
 
         getServer(id, function (server_connection) {
-            var socket = server_connection.socket;
-            socket.once('data', function (data) {
+            server_connection.eval(js, function (data) {
                 logger.debug("data from repl socket: " + data);
                 var result = 'undefined';
                 var out = data.toString().split(prompt);
@@ -76,8 +99,7 @@ exports.eval = function (req, res) {
                 }
                 logger.debug('send to client: ' + result);
                 res.send(result);
-            })
-            .write(js.trim() + '\n' + '.break\n');
+            });
         });
     }
 };

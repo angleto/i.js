@@ -1,0 +1,46 @@
+h4="Welcome to i.js"
+
+span.dropdown-header="Shortcuts"
+dl
+    dt
+        a(href="#")="Shift-Enter"
+    dd
+        span="evaluate current cell"
+    dt
+        a(href="#")="Ctrl-S (Meta-S)"
+    dd
+        span="save current document"
+    dt
+        a(href="#")="Ctrl-Space"
+    dd
+        span="auto complete"
+br
+
+span.dropdown-header="Built-in variables"
+dl
+    dt
+        a(href="#")="__base_dir"
+    dd
+        span="a pre-defined variable pointing to i.js base directory."
+    dt
+        a(href="#")="__modules_dir"
+    dd
+        span="a pre-defined variable pointing to directory with i.js module dependencies."
+br
+
+span.dropdown-header="Special commands"
+dl
+    dt
+        a(href="#")="%"
+    dd
+        span="Put % as the first character in the cell to let i.js know that the result of cell evaluation should be rendered as HTML."
+    dt
+        a(href="#")=".break"
+    dd
+        span="While inputting a multi-line expression, sometimes you get lost or just don't care about completing it. .break will start over."
+    dt
+        a(href="#")=".clear"
+    dd
+        span="Resets the context object to an empty object and clears any multi-line expression."
+br
+a(href="https://github.com/mksenzov/i.js")="i.js on GitHub"

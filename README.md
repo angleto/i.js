@@ -43,7 +43,7 @@ Here I will use an adopted Mike Bostock's [example](http://bost.ocks.org/mike/ba
 * First of all include d3 library 
 
 ```javascript
-var d3 = require('d3');
+var d3 = require(__modules_dir + 'd3');
 ```
 
 * Now get some data 
@@ -119,11 +119,16 @@ Usage
 * Use _Ctrl+Space_ to auto-complete the code
 * Use _Ctrl+S_ (_Meta+S_) to save the current i.js scrapbook
 
-**Special commands**
+**Special commands and built-in definitions **
+
+Built-in variables
+
+* __base_dir - is a pre-defined variable pointing to i.js base directory.
+* __modules_dir - is a pre-defined variable pointing to directory with i.js module dependencies..
 
 Use any of the following within i.js cells:
 
 * _%_ put % as the first character in the cell to let i.js know that the result of cell evaluation should be rendered as HTML.
-* _.break_ force complete current expression
-* _.clear_ clear the context
+* _.break_ force complete current expression.
+* _.clear_ clear the context.
 * more details on [REPL doc page](http://nodejs.org/api/repl.html#repl_repl_features)
