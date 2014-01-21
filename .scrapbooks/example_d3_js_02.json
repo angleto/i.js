@@ -2,7 +2,7 @@
     "name": "d3: next steps",
     "cells": [
         {
-            "in": "var d3 = require(__modules_dir + 'd3');\nd3.version",
+            "in": "var d3 = require(__modules_dir + '/d3');\nd3.version",
             "out": "'3.3.13'"
         },
         {
