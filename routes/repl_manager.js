@@ -141,8 +141,10 @@ function filterMultiLineExpressions(js) {
         }
 
         if (!command) {
-            if (startsWithDot && sourceCode.length > 0) {
-                sourceCode[sourceCode.length - 1] = sourceCode[sourceCode.length - 1] + trimmedLine;
+            if (startsWithDot) {
+                if (sourceCode.length > 0) {
+                    sourceCode[sourceCode.length - 1] = sourceCode[sourceCode.length - 1] + trimmedLine;
+                }
             } else {
                 if (trimmedLine.length > 0) {
                     sourceCode.push(trimmedLine);
