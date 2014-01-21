@@ -8,7 +8,7 @@ var config = require('./config'),
     util = require('util');
 
 var prompt = "@\n",
-    commandsWhitelist = [".break", ".clear"],
+    commandsWhiteList = [".break", ".clear"],
     scripts = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'repl_scripts.json'), 'utf8'));
 
 
@@ -131,8 +131,8 @@ function filterMultiLineExpressions(js) {
         if (trimmedLine.charAt(0) === '.') {
             startsWithDot = true;
 
-            for (var j = 0; j < commandsWhitelist.length; j++) {
-                if (trimmedLine === commandsWhitelist[j]) {
+            for (var j = 0; j < commandsWhiteList.length; j++) {
+                if (trimmedLine === commandsWhiteList[j]) {
                     commands.push(trimmedLine);
                     command = true;
                     break;
@@ -150,15 +150,15 @@ function filterMultiLineExpressions(js) {
             }
         }
     }
-    return commands.join("\n") + "\n" + util.format(scripts['evalWrapper'], sourceCode.join("\n").trim());
+    return util.format(scripts['evalWrapper'], commands.join("\n"), sourceCode.join("\n"));
 }
 
 /* Ignore all non-whitelisted REPL control commands */
 function filterREPLCommands(js) {
     if (js.match(/^\..+$/)) {
         var whiteListed = false;
-        for (var j = 0; j < commandsWhitelist.length; j++) {
-            if (js === commandsWhitelist[j]) {
+        for (var j = 0; j < commandsWhiteList.length; j++) {
+            if (js === commandsWhiteList[j]) {
                 whiteListed = true;
                 break;
             }

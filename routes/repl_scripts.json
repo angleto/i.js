@@ -1,5 +1,5 @@
 {
     "setupBaseDir": "var __base_dir = '%s';",
     "setupModulesDir": "var __modules_dir = '%s';",
-    "evalWrapper": "try {\n%s\n} catch (e) { e.message }\n.break\n"
+    "evalWrapper": "%s\ntry {\n%s\n} catch (e) { e.message }\n.break\n"
 }
