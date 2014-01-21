@@ -121,10 +121,9 @@ function filterMultiLineExpressions(js) {
     var sourceCode = [];
 
     /* Support multi-line function calls */
-    for (var i = 0; i < lines.length; i++) {
+    L: for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
 
-        var command = false;
         var startsWithDot = false;
         var trimmedLine = line.trim();
 
@@ -134,21 +133,18 @@ function filterMultiLineExpressions(js) {
             for (var j = 0; j < commandsWhiteList.length; j++) {
                 if (trimmedLine === commandsWhiteList[j]) {
                     commands.push(trimmedLine);
-                    command = true;
-                    break;
+                    break L;
                 }
             }
         }
 
-        if (!command) {
-            if (startsWithDot) {
-                if (sourceCode.length > 0) {
-                    sourceCode[sourceCode.length - 1] = sourceCode[sourceCode.length - 1] + trimmedLine;
-                }
-            } else {
-                if (trimmedLine.length > 0) {
-                    sourceCode.push(trimmedLine);
-                }
+        if (startsWithDot) {
+            if (sourceCode.length > 0) {
+                sourceCode[sourceCode.length - 1] = sourceCode[sourceCode.length - 1] + trimmedLine;
+            }
+        } else {
+            if (trimmedLine.length > 0) {
+                sourceCode.push(trimmedLine);
             }
         }
     }
