@@ -1,11 +1,16 @@
 var config = require('./config'),
     events = require('events'),
+    fs = require('fs'),
     logger = require('log4js').getLogger("repl_manager"),
     net = require('net'),
-    repl = require("repl");
+    path = require('path'),
+    repl = require('repl'),
+    util = require('util');
 
-var prompt = "@\n";
-var replCommandsWhitelist = [".break", ".clear"];
+var prompt = "@\n",
+    commandsWhiteList = [".break", ".clear"],
+    scripts = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'repl_scripts.json'), 'utf8'));
+
 
 var createServer = function (port, callback) {
     logger.info("createServer()");
@@ -34,17 +39,15 @@ var createServer = function (port, callback) {
                         callback(data);
                     }
                 })
-                .write(js.trim() + '\n' + '.break\n');
+                .write(js);
             };
         }
 
         ServerConnection.prototype.__proto__ = events.EventEmitter.prototype;
 
         var server_connection = new ServerConnection(clientSocket, repl_server);
-        server_connection.eval(
-            "var __base_dir = '" + config.base_dir + "';\n" +
-            "var __modules_dir = '" + config.modules_dir + "';"
-        );
+        server_connection.eval(util.format(scripts['setupBaseDir'], config.base_dir));
+        server_connection.eval(util.format(scripts['setupModulesDir'], config.modules_dir));
 
         callback(server_connection);
     }).listen(port);
@@ -112,45 +115,53 @@ function preprocessJS(js) {
 /* Support multi-line function calls */
 function filterMultiLineExpressions(js) {
     var lines = js.split('\n');
-    var preprocessedJS = '';
+
+    // We want to separate REPL commands from the source code: source code should be wrapped into a try/catch
+    var commands = [];
+    var sourceCode = [];
 
     /* Support multi-line function calls */
-    for (var i = 0; i < lines.length; i++) {
+    L: for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
 
-        var concatToPrevious = false;
+        var startsWithDot = false;
         var trimmedLine = line.trim();
 
         if (trimmedLine.charAt(0) === '.') {
-            concatToPrevious = true;
-            for (var j = 0; j < replCommandsWhitelist.length; j++) {
-                if (trimmedLine === replCommandsWhitelist[j]) {
-                    concatToPrevious = false;
-                    break;
+            startsWithDot = true;
+
+            for (var j = 0; j < commandsWhiteList.length; j++) {
+                if (trimmedLine === commandsWhiteList[j]) {
+                    commands.push(trimmedLine);
+                    break L;
                 }
             }
         }
 
-        if (!concatToPrevious && preprocessedJS.trim().length !== 0) {
-            preprocessedJS += '\n' + trimmedLine;
+        if (startsWithDot) {
+            if (sourceCode.length > 0) {
+                sourceCode[sourceCode.length - 1] = sourceCode[sourceCode.length - 1] + trimmedLine;
+            }
         } else {
-            preprocessedJS += trimmedLine;
+            if (trimmedLine.length > 0) {
+                sourceCode.push(trimmedLine);
+            }
         }
     }
-    return preprocessedJS;
+    return util.format(scripts['evalWrapper'], commands.join("\n"), sourceCode.join("\n"));
 }
 
 /* Ignore all non-whitelisted REPL control commands */
 function filterREPLCommands(js) {
     if (js.match(/^\..+$/)) {
-        var whitelisted = false;
-        for (var j = 0; j < replCommandsWhitelist.length; j++) {
-            if (js === replCommandsWhitelist[j]) {
-                whitelisted = true;
+        var whiteListed = false;
+        for (var j = 0; j < commandsWhiteList.length; j++) {
+            if (js === commandsWhiteList[j]) {
+                whiteListed = true;
                 break;
             }
         }
-        if (!whitelisted) {
+        if (!whiteListed) {
             js = '';
         }
     }

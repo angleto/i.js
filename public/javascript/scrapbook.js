@@ -179,7 +179,8 @@
             }
             cell.find('.cell-output').html(data);
         } else {
-            cell.find('.cell-output').append("pre").text(data);
+            var pre = $(document.createElement("pre")).text(data);
+            cell.find('.cell-output').empty().append(pre);
         }
 
         cell.find('.out').css('display', '');
