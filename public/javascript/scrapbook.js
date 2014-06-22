@@ -9,7 +9,7 @@
             data: {'id': id},
             type: 'get'
         }).done(function (data) {
-            console.log("AJAX /load request executed");
+            console.log("AJAX/load request executed");
 
             $("#name").val(data.name);
             if (data.cells) {
@@ -27,6 +27,7 @@
     load();
 
     function save() {
+        var cell_out = '';
         var array = [];
 
         $('.cell:visible').each(function(index, cell) {
@@ -34,9 +35,9 @@
             var cell_in = cell_id_to_code_mirror[id].getValue();
             if (cell_in.length > 0) {
                 if (isInlineOut(cell_in)) {
-                    var cell_out = $(this).find('.cell-output').html();
+                    cell_out = $(this).find('.cell-output').html();
                 } else {
-                    var cell_out = $(this).find('.cell-output').text();
+                    cell_out = $(this).find('.cell-output').text();
                 }
                 array.push({in: cell_in, out: cell_out});
             }
@@ -152,7 +153,8 @@
         $.ajax({
             url: '/repl',
             data: {'js': js, 'id': id},
-            type: 'post'
+            type: 'post',
+            contentType: 'application/x-www-form-urlencoded'
         })
         .done(function (data) {
             console.log("AJAX /repl request executed");
