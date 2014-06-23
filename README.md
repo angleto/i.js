@@ -43,6 +43,14 @@ Here I will use an adopted Mike Bostock's [example](http://bost.ocks.org/mike/ba
 * First of all include d3 library 
 
 ```javascript
+%init_d3
+var d3 = require(__modules_dir + 'd3');
+```
+
+This is essentially a syntactic sugar for including a node module into the i.js context. Instead of the magic command
+above one could inject any module dependency like this:
+
+```javascript
 var d3 = require(__modules_dir + 'd3');
 ```
 
@@ -55,7 +63,7 @@ var data = [4, 8, 15, 16, 23, 42];
 * Next you will need to create an empty container for your chart: 
 
 ```javascript
-var container = d3.select('body').html('').append('div');
+var container = d3Container();
 ```
 
 * From that point on you can do your normal D3 coding, for example you can style your container the way you want:
@@ -84,7 +92,7 @@ var svg = chart.selectAll("div").data(data).enter().append("div").style("width",
 
 ```javascript
 %inline
-container.node().parentNode.innerHTML
+container.render()
 ```
 
 See prepackaged _d3_ example scrapbooks for more details.

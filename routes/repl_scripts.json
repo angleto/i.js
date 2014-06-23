@@ -1,5 +1,15 @@
 {
     "setupBaseDir": "var __base_dir = '%s';",
     "setupModulesDir": "var __modules_dir = '%s';",
-    "evalWrapper": "try {\n%s\n} catch (e) { e.message }\n.break\n"
+    "evalWrapper": "try {\n%s\n} catch (e) { e.message }\n.break\n",
+    "init_d3": "var d3 = require(__modules_dir + '/d3');\nd3.version\n",
+    "d3Container": [
+        "function d3Container() {",
+        "   var container = d3.select('body').html('').append('div');",
+        "   container.render = function() {",
+        "       return container.node().parentNode.innerHTML",
+        "   };",
+        "   return container;",
+        "}"
+    ]
 }

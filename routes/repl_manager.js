@@ -47,6 +47,7 @@ var createServer = function (port, callback) {
         var server_connection = new ServerConnection(clientSocket, repl_server);
         server_connection.eval(util.format(scripts['setupBaseDir'], config.base_dir));
         server_connection.eval(util.format(scripts['setupModulesDir'], config.modules_dir));
+        server_connection.eval(scripts['d3Container'].join("\n"));
 
         callback(server_connection);
     }).listen(port);
@@ -125,6 +126,10 @@ exports.preprocessJS = function (js) {
         if (commandsSkipped) {
             if (trimmedLine === '%reset') {
                 clear = true;
+            } else if (trimmedLine === '%init_d3') {
+                sourceCode.push(scripts['init_d3']);
+            } else if (trimmedLine === '%d3_container') {
+                sourceCode.push(scripts['d3_container']);
             } else if (trimmedLine.length > 0) {
                 if (trimmedLine[0] === '.') {
                     sourceCode[sourceCode.length - 1] =  sourceCode[sourceCode.length - 1] + trimmedLine;
