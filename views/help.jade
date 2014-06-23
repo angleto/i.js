@@ -31,15 +31,11 @@ br
 span.dropdown-header="Special commands"
 dl
     dt
-        a(href="#")="%"
+        a(href="#")="%inline"
     dd
-        span="Put % as the first character in the cell to let i.js know that the result of cell evaluation should be rendered as HTML."
+        span="The result of cell evaluation should be rendered as HTML."
     dt
-        a(href="#")=".break"
-    dd
-        span="While inputting a multi-line expression, sometimes you get lost or just don't care about completing it. .break will start over."
-    dt
-        a(href="#")=".clear"
+        a(href="#")="%reset"
     dd
         span="Resets the context object to an empty object and clears any multi-line expression."
 br

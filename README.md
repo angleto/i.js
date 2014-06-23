@@ -83,7 +83,8 @@ var svg = chart.selectAll("div").data(data).enter().append("div").style("width",
 * Your chart is generated on server, and now all you need is just to render the result in your scrapbook, use the special character _%_ for this (it should be the first character in the cell):
 
 ```javascript
-%container.node().parentNode.innerHTML
+%inline
+container.node().parentNode.innerHTML
 ```
 
 See prepackaged _d3_ example scrapbooks for more details.
@@ -129,7 +130,5 @@ Built-in variables
 
 Use any of the following within i.js cells:
 
-* _%_ put % as the first character in the cell to let i.js know that the result of cell evaluation should be rendered as HTML.
-* _.break_ force complete current expression.
-* _.clear_ clear the context.
-* more details on [REPL doc page](http://nodejs.org/api/repl.html#repl_repl_features)
+* _%inline_ the result of cell evaluation should be rendered as HTML.
+* _%clear_ clear the context.

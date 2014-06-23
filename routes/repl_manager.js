@@ -8,7 +8,6 @@ var config = require('./config'),
     util = require('util');
 
 var prompt = "@\n",
-    commandsWhiteList = [".break", ".clear"],
     scripts = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'repl_scripts.json'), 'utf8'));
 
 
@@ -86,7 +85,7 @@ exports.eval = function (req, res) {
     if (id && js) {
         logger.info("id: " + id);
         logger.debug("js: " + js);
-        js = preprocessJS(js);
+        js = exports.preprocessJS(js);
         logger.debug("preprocessed js: " + js);
 
         getServer(id, function (server_connection) {
@@ -107,66 +106,50 @@ exports.eval = function (req, res) {
     }
 };
 
-/* Support multi-line function calls and ignore all non-whitelisted REPL control commands*/
-function preprocessJS(js) {
-    return filterREPLCommands(filterMultiLineExpressions(js));
-}
-
-/* Support multi-line function calls */
-function filterMultiLineExpressions(js) {
+/* Support multi-line function calls and ignore all non-white-listed REPL control commands*/
+exports.preprocessJS = function (js) {
     var lines = js.split('\n');
-
-    // We want to separate REPL commands from the source code: source code should be wrapped into a try/catch
-    var commands = [];
     var sourceCode = [];
 
-    /* Support multi-line function calls */
-    L: for (var i = 0; i < lines.length; i++) {
+    // We want to separate REPL commands from the source code: source code should be wrapped into a try/catch
+    var commandsSkipped = false;
+    var clear = false;
+    for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
-
-        var startsWithDot = false;
         var trimmedLine = line.trim();
 
-        if (trimmedLine.charAt(0) === '.') {
-            startsWithDot = true;
+        if (!commandsSkipped && trimmedLine.charAt(0) !== '.') {
+            commandsSkipped = true;
+        }
 
-            for (var j = 0; j < commandsWhiteList.length; j++) {
-                if (trimmedLine === commandsWhiteList[j]) {
-                    commands.push(trimmedLine);
-                    break L;
+        if (commandsSkipped) {
+            if (trimmedLine === '%reset') {
+                clear = true;
+            } else if (trimmedLine.length > 0) {
+                if (trimmedLine[0] === '.') {
+                    sourceCode[sourceCode.length - 1] =  sourceCode[sourceCode.length - 1] + trimmedLine;
+                } else {
+                    sourceCode.push(trimmedLine);
                 }
             }
         }
-
-        if (startsWithDot) {
-            if (sourceCode.length > 0) {
-                sourceCode[sourceCode.length - 1] = sourceCode[sourceCode.length - 1] + trimmedLine;
-            }
-        } else {
-            if (trimmedLine.length > 0) {
-                sourceCode.push(trimmedLine);
-            }
-        }
     }
-    return util.format(scripts['evalWrapper'], commands.join("\n"), sourceCode.join("\n"));
-}
 
-/* Ignore all non-whitelisted REPL control commands */
-function filterREPLCommands(js) {
-    if (js.match(/^\..+$/)) {
-        var whiteListed = false;
-        for (var j = 0; j < commandsWhiteList.length; j++) {
-            if (js === commandsWhiteList[j]) {
-                whiteListed = true;
-                break;
-            }
-        }
-        if (!whiteListed) {
-            js = '';
-        }
+    var sourceCodeString = sourceCode.join("\n").trim();
+
+    var result = "";
+    if (clear) {
+        result += ".clear";
     }
-    return js;
-}
+    if (sourceCodeString !== '') {
+        if (result !== '') {
+            result += '\n';
+        }
+        result += util.format(scripts['evalWrapper'], sourceCodeString);
+    }
+
+    return result;
+};
 
 exports.autocomplete = function (req, res) {
     logger.info("autocomplete()");

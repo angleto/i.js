@@ -3,7 +3,7 @@
     "cells": [
         {
             "in": "var d3 = require(__modules_dir + '/d3');\nd3.version",
-            "out": "'3.3.13'"
+            "out": "'3.4.8'"
         },
         {
             "in": "var data = Array.apply(null, new Array(6))\n\t.map(function() { return Math.round(Math.random() * 40 + 10); })\n\t.sort(function(a,b) {return a - b;});\ndata",
@@ -14,7 +14,7 @@
             "out": "undefined"
         },
         {
-            "in": "%\n// We do not want to see svg html code, we want to render it instead, \n// so use the magic '%' marker as the first symbol of the cell\ncontainer.node().parentNode.innerHTML",
+            "in": "%inline\n// We do not want to see svg html code, we want to render it instead, \n// so use the magic '%' marker as the first symbol of the cell\ncontainer.node().parentNode.innerHTML",
             "out": "<div><style>.chart div {background-color: steelblue; text-align: right; padding: 3px; margin: 1px; color: white; }</style><div class=\"chart\"><div style=\"width: 120px;\">12</div><div style=\"width: 320px;\">32</div><div style=\"width: 320px;\">32</div><div style=\"width: 350px;\">35</div><div style=\"width: 410px;\">41</div><div style=\"width: 440px;\">44</div></div></div>"
         }
     ]

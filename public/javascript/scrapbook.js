@@ -1,7 +1,7 @@
 (function () {
     var id = location.pathname.split('/').slice(-1)[0];
     var cell_id_to_code_mirror = {};
-    var inlineMarker = '%';
+    var inlineMarker = '%inline';
 
     function load() {
         $.ajax({
@@ -146,8 +146,9 @@
 
         var inline = false;
         if (isInlineOut(js)) {
+            console.log("INLINE!")
             inline = true;
-            js = js.slice(1);
+            js = js.slice(inlineMarker.length);
         }
 
         $.ajax({
@@ -189,7 +190,21 @@
     }
 
     function isInlineOut(cell_in) {
-        return cell_in.indexOf(inlineMarker) === 0;
+        if (typeof cell_in === 'undefined' || cell_in === null || cell_in.length === 0) {
+            return false;
+        }
+        var lines = cell_in.split("\n");
+
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i].trim();
+            console.log(">" + line);
+            if (line === inlineMarker) {
+                console.log("YYY")
+                return true;
+            }
+        }
+        console.log("XXX")
+        return false;
     }
 
     function getId(cell) {
