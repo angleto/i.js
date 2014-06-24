@@ -7,6 +7,7 @@
     <orderEntry type="library" name="Node.js v0.10.22 Core Modules" level="application" />
     <orderEntry type="library" name="Node.js Dependencies for i.js" level="project" />
     <orderEntry type="library" name="Node.js v0.10.24 Core Modules" level="application" />
+    <orderEntry type="library" name="i.js node_modules" level="project" />
   </component>
 </module>
 

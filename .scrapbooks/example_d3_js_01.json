@@ -2,20 +2,20 @@
     "name": "d3: basic example",
     "cells": [
         {
-            "in": "var d3 = require(__modules_dir + '/d3');\nd3.version",
-            "out": "'3.3.13'"
+            "in": "%init_d3",
+            "out": "'3.4.8'"
         },
         {
             "in": "var data = Array.apply(null, new Array(6))\n\t.map(function() { return Math.round(Math.random() * 40 + 10); })\n\t.sort(function(a,b) {return a - b;});\ndata",
-            "out": "[ 12, 32, 32, 35, 41, 44 ]"
+            "out": "[ 11, 14, 20, 33, 45, 45 ]"
         },
         {
-            "in": "var container = d3.select('body').html('').append('div');\ncontainer.append(\"style\")\n\t.text(\n\".chart div {\\\n\tbackground-color: steelblue; \\\n\ttext-align: right; \\\n\tpadding: 3px; \\\n\tmargin: 1px; \\\n\tcolor: white; \\\n}\");\n\nvar chart = container.append(\"div\").attr(\"class\", \"chart\");\nvar svg = chart.selectAll(\"div\")\n\t.data(data)\n\t.enter()\n\t.append(\"div\")\n\t.style(\"width\", function(d) { return d * 10 + \"px\"; })\n\t.text(function(d) { return d; });",
-            "out": "undefined"
+            "in": "var container = d3Container();\ncontainer.append(\"style\")\n\t.text(\n\".chart div {\\\n\tbackground-color: steelblue; \\\n\ttext-align: right; \\\n\tpadding: 3px; \\\n\tmargin: 1px; \\\n\tcolor: white; \\\n}\");\n\nvar chart = container.append(\"div\").attr(\"class\", \"chart\");\nvar svg = chart.selectAll(\"div\")\n\t.data(data)\n\t.enter()\n\t.append(\"div\")\n\t.style(\"width\", function(d) { return d * 10 + \"px\"; })\n\t.text(function(d) { return d; });",
+            "out": "[ [ { _ownerDocument: [Object],\n      _childNodes: [Object],\n      _attributes: [Object],\n      _nodeName: 'style',\n      _childrenList: null,\n      _version: 1,\n      _nodeValue: null,\n      _parentNode: [Object],\n      _readonly: false,\n      _tagName: 'style',\n      _listeners: [Object],\n      _created: true,\n      querySelector: [Function],\n      querySelectorAll: [Function],\n      matchesSelector: [Function],\n      _namespaceURI: null,\n      _localName: 'style',\n      _attached: true,\n      _cssStyleSheet: [Object],\n      _attachedToDocument: true },\n    parentNode: { _ownerDocument: [Object],\n      _childNodes: [Object],\n      _attributes: [Object],\n      _nodeName: 'html',\n      _childrenList: null,\n      _version: 3,\n      _nodeValue: null,\n      _parentNode: [Object],\n      _readonly: false,\n      _tagName: 'html',\n      _created: true,\n      querySelector: [Function],\n      querySelectorAll: [Function],\n      matchesSelector: [Function],\n      _attached: true,\n      _attachedToDocument: true,\n      _style: [Object],\n      _ignoreValueOfStyleAttr: false } ] ]"
         },
         {
-            "in": "%\n// We do not want to see svg html code, we want to render it instead, \n// so use the magic '%' marker as the first symbol of the cell\ncontainer.node().parentNode.innerHTML",
-            "out": "<div><style>.chart div {background-color: steelblue; text-align: right; padding: 3px; margin: 1px; color: white; }</style><div class=\"chart\"><div style=\"width: 120px;\">12</div><div style=\"width: 320px;\">32</div><div style=\"width: 320px;\">32</div><div style=\"width: 350px;\">35</div><div style=\"width: 410px;\">41</div><div style=\"width: 440px;\">44</div></div></div>"
+            "in": "%inline\n// We do not want to see svg html code, we want to render it instead, \n// so use the magic '%' marker as the first symbol of the cell\ncontainer.render()",
+            "out": "<div><style>.chart div {background-color: steelblue; text-align: right; padding: 3px; margin: 1px; color: white; }</style><div class=\"chart\"><div style=\"width: 110px;\">11</div><div style=\"width: 140px;\">14</div><div style=\"width: 200px;\">20</div><div style=\"width: 330px;\">33</div><div style=\"width: 450px;\">45</div><div style=\"width: 450px;\">45</div></div></div>"
         }
     ]
 }

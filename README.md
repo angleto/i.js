@@ -43,6 +43,14 @@ Here I will use an adopted Mike Bostock's [example](http://bost.ocks.org/mike/ba
 * First of all include d3 library 
 
 ```javascript
+%init_d3
+var d3 = require(__modules_dir + 'd3');
+```
+
+This is essentially a syntactic sugar for including a node module into the i.js context. Instead of the magic command
+above one could inject any module dependency like this:
+
+```javascript
 var d3 = require(__modules_dir + 'd3');
 ```
 
@@ -55,7 +63,7 @@ var data = [4, 8, 15, 16, 23, 42];
 * Next you will need to create an empty container for your chart: 
 
 ```javascript
-var container = d3.select('body').html('').append('div');
+var container = d3Container();
 ```
 
 * From that point on you can do your normal D3 coding, for example you can style your container the way you want:
@@ -83,7 +91,8 @@ var svg = chart.selectAll("div").data(data).enter().append("div").style("width",
 * Your chart is generated on server, and now all you need is just to render the result in your scrapbook, use the special character _%_ for this (it should be the first character in the cell):
 
 ```javascript
-%container.node().parentNode.innerHTML
+%inline
+container.render()
 ```
 
 See prepackaged _d3_ example scrapbooks for more details.
@@ -109,6 +118,7 @@ Installation
 4. Install all i.js dependencies: _npm install_
 5. Start i.js server: _node app.js_
 6. Now you can open i.js in the browser: http://localhost:3000
+7. [Optional] To run tests: _node_modules/jasmine-node/bin/jasmine-node --verbose spec_
 
 Usage
 -----
@@ -128,7 +138,5 @@ Built-in variables
 
 Use any of the following within i.js cells:
 
-* _%_ put % as the first character in the cell to let i.js know that the result of cell evaluation should be rendered as HTML.
-* _.break_ force complete current expression.
-* _.clear_ clear the context.
-* more details on [REPL doc page](http://nodejs.org/api/repl.html#repl_repl_features)
+* _%inline_ the result of cell evaluation should be rendered as HTML.
+* _%clear_ clear the context.
