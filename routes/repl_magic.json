@@ -1,0 +1,17 @@
+{
+    "%inline": "",
+    "%reset": "",
+    "%init_d3": [
+        "var d3 = require(__modules_dir + '/d3');",
+        "",
+        "function d3Container() {",
+        "   var container = d3.select('body').html('').append('div');",
+        "   container.render = function() {",
+        "       return container.node().parentNode.innerHTML",
+        "   };",
+        "   return container;",
+        "}",
+        "",
+        "d3.version"
+    ]
+}

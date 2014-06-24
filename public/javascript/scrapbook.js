@@ -146,9 +146,7 @@
 
         var inline = false;
         if (isInlineOut(js)) {
-            console.log("INLINE!")
             inline = true;
-            js = js.slice(inlineMarker.length);
         }
 
         $.ajax({
@@ -197,13 +195,10 @@
 
         for (var i = 0; i < lines.length; i++) {
             var line = lines[i].trim();
-            console.log(">" + line);
             if (line === inlineMarker) {
-                console.log("YYY")
                 return true;
             }
         }
-        console.log("XXX")
         return false;
     }
 

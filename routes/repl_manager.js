@@ -8,7 +8,8 @@ var config = require('./config'),
     util = require('util');
 
 var prompt = "@\n",
-    scripts = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'repl_scripts.json'), 'utf8'));
+    scripts = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'repl_scripts.json'), 'utf8')),
+    magic = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'repl_magic.json'), 'utf8'));
 
 
 var createServer = function (port, callback) {
@@ -47,7 +48,6 @@ var createServer = function (port, callback) {
         var server_connection = new ServerConnection(clientSocket, repl_server);
         server_connection.eval(util.format(scripts['setupBaseDir'], config.base_dir));
         server_connection.eval(util.format(scripts['setupModulesDir'], config.modules_dir));
-        server_connection.eval(scripts['d3Container'].join("\n"));
 
         callback(server_connection);
     }).listen(port);
@@ -124,12 +124,15 @@ exports.preprocessJS = function (js) {
         }
 
         if (commandsSkipped) {
-            if (trimmedLine === '%reset') {
-                clear = true;
-            } else if (trimmedLine === '%init_d3') {
-                sourceCode.push(scripts['init_d3']);
-            } else if (trimmedLine === '%d3_container') {
-                sourceCode.push(scripts['d3_container']);
+            if (trimmedLine[0] === '%') {
+                if (trimmedLine === '%reset') {
+                    clear = true;
+                }
+                var magicCode = magic[trimmedLine];
+                if (util.isArray(magicCode)) {
+                    magicCode = magicCode.join("\n");
+                }
+                sourceCode.push(magicCode.trim());
             } else if (trimmedLine.length > 0) {
                 if (trimmedLine[0] === '.') {
                     sourceCode[sourceCode.length - 1] =  sourceCode[sourceCode.length - 1] + trimmedLine;
@@ -146,12 +149,10 @@ exports.preprocessJS = function (js) {
     if (clear) {
         result += ".clear";
     }
-    if (sourceCodeString !== '') {
-        if (result !== '') {
-            result += '\n';
-        }
-        result += util.format(scripts['evalWrapper'], sourceCodeString);
+    if (result !== '') {
+        result += '\n';
     }
+    result += util.format(scripts['evalWrapper'], sourceCodeString);
 
     return result;
 };
