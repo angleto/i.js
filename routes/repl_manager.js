@@ -147,13 +147,12 @@ exports.preprocessJS = function (js) {
 
     var result = "";
     if (clear) {
-        result += ".clear";
+        result += ".clear\n";
     }
-    if (result !== '') {
-        result += '\n';
-    }
-    result += util.format(scripts['evalWrapper'], sourceCodeString);
 
+    if (sourceCodeString !=='') {
+        result += util.format(scripts['evalWrapper'], sourceCodeString);
+    }
     return result;
 };
 

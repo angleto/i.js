@@ -118,7 +118,7 @@ Installation
 4. Install all i.js dependencies: _npm install_
 5. Start i.js server: _node app.js_
 6. Now you can open i.js in the browser: http://localhost:3000
-7. [Optional] To run tests: _jasmine-node --verbose spec_
+7. [Optional] To run tests: _node_modules/jasmine-node/bin/jasmine-node --verbose spec_
 
 Usage
 -----
