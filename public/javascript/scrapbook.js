@@ -173,6 +173,10 @@
     }
 
     function setCellOut(cell, data, inline) {
+        if (data.trim() === 'undefined') {
+            return;
+        }
+
         if (inline) {
             var m = data.match(/^'(.*)'$/);
             if (m) {

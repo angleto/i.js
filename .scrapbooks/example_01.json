@@ -3,7 +3,7 @@
     "cells": [
         {
             "in": "// This example was taken from Douglas Crockford “JavaScript The Good Parts”",
-            "out": "undefined"
+            "out": ""
         },
         {
             "in": "Object.prototype.method = function (name, f) {\n\tthis.prototype[name] = f;\t\n\treturn this;\n}",

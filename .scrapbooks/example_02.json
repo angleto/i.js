@@ -3,7 +3,7 @@
     "cells": [
         {
             "in": "// This example was taken from Douglas Crockford “JavaScript The Good Parts”",
-            "out": "undefined"
+            "out": ""
         },
         {
             "in": "if (typeof Object.instance === 'undefined') {\n\tObject.instance = function(o) {\n\t\tvar F = function() {};\n\t\tF.prototype = o;\n\t\treturn new F();\n\t}\n}",
