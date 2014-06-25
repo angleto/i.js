@@ -22,7 +22,9 @@ var createServer = function (port, callback) {
         var repl_server = repl.start({
             prompt: prompt,
             input: serverSocket,
-            output: serverSocket
+            output: serverSocket,
+            terminal: false,
+            ignoreUndefined: false
         })
         .on('exit', function () {
             serverSocket.end();
@@ -43,13 +45,17 @@ var createServer = function (port, callback) {
             };
         }
 
-        ServerConnection.prototype.__proto__ = events.EventEmitter.prototype;
+        util.inherits(ServerConnection, events.EventEmitter);
 
         var server_connection = new ServerConnection(clientSocket, repl_server);
-        server_connection.eval(util.format(scripts['setupBaseDir'], config.base_dir));
-        server_connection.eval(util.format(scripts['setupModulesDir'], config.modules_dir));
+        var init = [
+            util.format(scripts['setupBaseDir'], config.base_dir),
+            util.format(scripts['setupModulesDir'], config.modules_dir)
+        ];
 
-        callback(server_connection);
+        server_connection.eval(init.join("\n"), function(data) {
+            callback(server_connection);
+        });
     }).listen(port);
 
     clientSocket = net.connect(port);
