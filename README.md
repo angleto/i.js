@@ -44,7 +44,6 @@ Here I will use an adopted Mike Bostock's [example](http://bost.ocks.org/mike/ba
 
 ```javascript
 %init_d3
-var d3 = require(__modules_dir + 'd3');
 ```
 
 This is essentially a syntactic sugar for including a node module into the i.js context. Instead of the magic command
