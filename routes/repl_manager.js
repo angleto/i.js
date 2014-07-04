@@ -135,10 +135,13 @@ exports.preprocessJS = function (js) {
                     clear = true;
                 }
                 var magicCode = magic[trimmedLine];
-                if (util.isArray(magicCode)) {
-                    magicCode = magicCode.join("\n");
+
+                if (magicCode) {
+                    if (util.isArray(magicCode)) {
+                        magicCode = magicCode.join("\n");
+                    }
+                    sourceCode.push(magicCode.trim());
                 }
-                sourceCode.push(magicCode.trim());
             } else if (trimmedLine.length > 0) {
                 if (trimmedLine[0] === '.') {
                     sourceCode[sourceCode.length - 1] =  sourceCode[sourceCode.length - 1] + trimmedLine;
