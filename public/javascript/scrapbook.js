@@ -174,6 +174,7 @@
 
     function setCellOut(cell, data, inline) {
         if (data.trim() === 'undefined') {
+            cell.find('.out').css('display', 'none');
             return;
         }
 
